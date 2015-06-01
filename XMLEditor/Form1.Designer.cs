@@ -28,60 +28,61 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.accordion1 = new Opulos.Core.UI.Accordion();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.generalTabPage = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // accordion1
+            // tabControl1
             // 
-            this.accordion1.AllowMouseResize = true;
-            this.accordion1.AutoScroll = true;
-            this.accordion1.AutoSize = true;
-            this.accordion1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.accordion1.CheckBoxFactory = null;
-            this.accordion1.CheckBoxMargin = null;
-            this.accordion1.ContentBackColor = null;
-            this.accordion1.ContentMargin = null;
-            this.accordion1.ContentPadding = new System.Windows.Forms.Padding(5);
-            this.accordion1.ControlBackColor = null;
-            this.accordion1.DownArrow = null;
-            this.accordion1.FillHeight = true;
-            this.accordion1.FillLastOpened = false;
-            this.accordion1.FillModeGrowOnly = false;
-            this.accordion1.FillResetOnCollapse = false;
-            this.accordion1.FillWidth = true;
-            this.accordion1.GrabCursor = System.Windows.Forms.Cursors.SizeNS;
-            this.accordion1.GrabRequiresPositiveFillWeight = true;
-            this.accordion1.GrabWidth = 6;
-            this.accordion1.GrowAndShrink = true;
-            this.accordion1.Insets = new System.Windows.Forms.Padding(0);
-            this.accordion1.Location = new System.Drawing.Point(12, 12);
-            this.accordion1.Name = "accordion1";
-            this.accordion1.OpenOnAdd = false;
-            this.accordion1.OpenOneOnly = false;
-            this.accordion1.ShowToolMenu = true;
-            this.accordion1.ShowToolMenuOnHoverWhenClosed = false;
-            this.accordion1.ShowToolMenuOnRightClick = true;
-            this.accordion1.ShowToolMenuRequiresPositiveFillWeight = false;
-            this.accordion1.Size = new System.Drawing.Size(703, 522);
-            this.accordion1.TabIndex = 0;
-            this.accordion1.UpArrow = null;
+            this.tabControl1.Controls.Add(this.generalTabPage);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1352, 546);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // generalTabPage
+            // 
+            this.generalTabPage.Location = new System.Drawing.Point(4, 22);
+            this.generalTabPage.Name = "generalTabPage";
+            this.generalTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.generalTabPage.Size = new System.Drawing.Size(1344, 520);
+            this.generalTabPage.TabIndex = 0;
+            this.generalTabPage.Text = "General";
+            this.generalTabPage.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(192, 74);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1352, 546);
-            this.Controls.Add(this.accordion1);
+            this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
             this.Text = "XMLEditor for MedLine";
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private Opulos.Core.UI.Accordion accordion1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage generalTabPage;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }
 
