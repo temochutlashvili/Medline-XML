@@ -170,6 +170,7 @@ namespace XMLEditor
         public void deleteAuthor(Author author)
         {
             _authors.Remove(author);
+            author.Dispose();
         }
     }
 }

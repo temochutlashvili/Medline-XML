@@ -51,7 +51,6 @@
             this.toolStripButton_Add = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripProgressBar_importClipboard = new System.Windows.Forms.ToolStripProgressBar();
-            this.accordion1 = new Opulos.Core.UI.Accordion();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabPage4 = new System.Windows.Forms.TabPage();
@@ -64,6 +63,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.accordion1 = new Opulos.Core.UI.Accordion();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -298,70 +298,6 @@
             this.toolStripProgressBar_importClipboard.Size = new System.Drawing.Size(300, 22);
             this.toolStripProgressBar_importClipboard.Visible = false;
             // 
-            // accordion1
-            // 
-            this.accordion1.AddResizeBars = true;
-            this.accordion1.AllowMouseResize = true;
-            this.accordion1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.accordion1.AnimateCloseEffect = ((Opulos.Core.UI.AnimateWindowFlags)(((Opulos.Core.UI.AnimateWindowFlags.VerticalNegative | Opulos.Core.UI.AnimateWindowFlags.Hide) 
-            | Opulos.Core.UI.AnimateWindowFlags.Slide)));
-            this.accordion1.AnimateCloseMillis = 300;
-            this.accordion1.AnimateOpenEffect = ((Opulos.Core.UI.AnimateWindowFlags)(((Opulos.Core.UI.AnimateWindowFlags.VerticalPositive | Opulos.Core.UI.AnimateWindowFlags.Show) 
-            | Opulos.Core.UI.AnimateWindowFlags.Slide)));
-            this.accordion1.AnimateOpenMillis = 300;
-            this.accordion1.AutoFixDockStyle = true;
-            this.accordion1.AutoScroll = true;
-            this.accordion1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.accordion1.CheckBoxFactory = null;
-            this.accordion1.CheckBoxMargin = null;
-            this.accordion1.ContentBackColor = null;
-            this.accordion1.ContentMargin = null;
-            this.accordion1.ContentPadding = new System.Windows.Forms.Padding(5);
-            this.accordion1.ControlBackColor = null;
-            this.accordion1.ControlMinimumHeightIsItsPreferredHeight = true;
-            this.accordion1.ControlMinimumWidthIsItsPreferredWidth = true;
-            this.accordion1.DownArrow = null;
-            this.accordion1.FillHeight = true;
-            this.accordion1.FillLastOpened = false;
-            this.accordion1.FillModeGrowOnly = false;
-            this.accordion1.FillResetOnCollapse = false;
-            this.accordion1.FillWidth = true;
-            this.accordion1.GrabCursor = System.Windows.Forms.Cursors.SizeNS;
-            this.accordion1.GrabRequiresPositiveFillWeight = true;
-            this.accordion1.GrabWidth = 6;
-            this.accordion1.GrowAndShrink = true;
-            this.accordion1.Insets = new System.Windows.Forms.Padding(0);
-            this.accordion1.Location = new System.Drawing.Point(3, 31);
-            this.accordion1.Name = "accordion1";
-            this.accordion1.OpenOnAdd = true;
-            this.accordion1.OpenOneOnly = false;
-            this.accordion1.ResizeBarFactory = null;
-            this.accordion1.ResizeBarsAlign = 0.5D;
-            this.accordion1.ResizeBarsArrowKeyDelta = 10;
-            this.accordion1.ResizeBarsFadeInMillis = 800;
-            this.accordion1.ResizeBarsFadeOutMillis = 800;
-            this.accordion1.ResizeBarsFadeProximity = 24;
-            this.accordion1.ResizeBarsFill = 1D;
-            this.accordion1.ResizeBarsKeepFocusAfterMouseDrag = false;
-            this.accordion1.ResizeBarsKeepFocusIfControlOutOfView = true;
-            this.accordion1.ResizeBarsKeepFocusOnClick = true;
-            this.accordion1.ResizeBarsMargin = null;
-            this.accordion1.ResizeBarsMinimumLength = 50;
-            this.accordion1.ResizeBarsStayInViewOnArrowKey = true;
-            this.accordion1.ResizeBarsStayInViewOnMouseDrag = true;
-            this.accordion1.ResizeBarsStayVisibleIfFocused = true;
-            this.accordion1.ResizeBarsTabStop = true;
-            this.accordion1.ShowPartiallyVisibleResizeBars = false;
-            this.accordion1.ShowToolMenu = true;
-            this.accordion1.ShowToolMenuOnHoverWhenClosed = false;
-            this.accordion1.ShowToolMenuOnRightClick = true;
-            this.accordion1.ShowToolMenuRequiresPositiveFillWeight = false;
-            this.accordion1.Size = new System.Drawing.Size(1376, 429);
-            this.accordion1.TabIndex = 0;
-            this.accordion1.UpArrow = null;
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.dataGridView1);
@@ -469,6 +405,70 @@
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog1";
+            // 
+            // accordion1
+            // 
+            this.accordion1.AddResizeBars = true;
+            this.accordion1.AllowMouseResize = true;
+            this.accordion1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.accordion1.AnimateCloseEffect = ((Opulos.Core.UI.AnimateWindowFlags)(((Opulos.Core.UI.AnimateWindowFlags.VerticalNegative | Opulos.Core.UI.AnimateWindowFlags.Hide) 
+            | Opulos.Core.UI.AnimateWindowFlags.Slide)));
+            this.accordion1.AnimateCloseMillis = 300;
+            this.accordion1.AnimateOpenEffect = ((Opulos.Core.UI.AnimateWindowFlags)(((Opulos.Core.UI.AnimateWindowFlags.VerticalPositive | Opulos.Core.UI.AnimateWindowFlags.Show) 
+            | Opulos.Core.UI.AnimateWindowFlags.Slide)));
+            this.accordion1.AnimateOpenMillis = 300;
+            this.accordion1.AutoFixDockStyle = true;
+            this.accordion1.AutoScroll = true;
+            this.accordion1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.accordion1.CheckBoxFactory = null;
+            this.accordion1.CheckBoxMargin = null;
+            this.accordion1.ContentBackColor = null;
+            this.accordion1.ContentMargin = null;
+            this.accordion1.ContentPadding = new System.Windows.Forms.Padding(5);
+            this.accordion1.ControlBackColor = null;
+            this.accordion1.ControlMinimumHeightIsItsPreferredHeight = true;
+            this.accordion1.ControlMinimumWidthIsItsPreferredWidth = true;
+            this.accordion1.DownArrow = null;
+            this.accordion1.FillHeight = true;
+            this.accordion1.FillLastOpened = false;
+            this.accordion1.FillModeGrowOnly = false;
+            this.accordion1.FillResetOnCollapse = false;
+            this.accordion1.FillWidth = true;
+            this.accordion1.GrabCursor = System.Windows.Forms.Cursors.SizeNS;
+            this.accordion1.GrabRequiresPositiveFillWeight = true;
+            this.accordion1.GrabWidth = 6;
+            this.accordion1.GrowAndShrink = true;
+            this.accordion1.Insets = new System.Windows.Forms.Padding(0);
+            this.accordion1.Location = new System.Drawing.Point(3, 31);
+            this.accordion1.Name = "accordion1";
+            this.accordion1.OpenOnAdd = true;
+            this.accordion1.OpenOneOnly = false;
+            this.accordion1.ResizeBarFactory = null;
+            this.accordion1.ResizeBarsAlign = 0.5D;
+            this.accordion1.ResizeBarsArrowKeyDelta = 10;
+            this.accordion1.ResizeBarsFadeInMillis = 800;
+            this.accordion1.ResizeBarsFadeOutMillis = 800;
+            this.accordion1.ResizeBarsFadeProximity = 24;
+            this.accordion1.ResizeBarsFill = 1D;
+            this.accordion1.ResizeBarsKeepFocusAfterMouseDrag = false;
+            this.accordion1.ResizeBarsKeepFocusIfControlOutOfView = true;
+            this.accordion1.ResizeBarsKeepFocusOnClick = true;
+            this.accordion1.ResizeBarsMargin = null;
+            this.accordion1.ResizeBarsMinimumLength = 50;
+            this.accordion1.ResizeBarsStayInViewOnArrowKey = true;
+            this.accordion1.ResizeBarsStayInViewOnMouseDrag = true;
+            this.accordion1.ResizeBarsStayVisibleIfFocused = true;
+            this.accordion1.ResizeBarsTabStop = true;
+            this.accordion1.ShowPartiallyVisibleResizeBars = false;
+            this.accordion1.ShowToolMenu = true;
+            this.accordion1.ShowToolMenuOnHoverWhenClosed = false;
+            this.accordion1.ShowToolMenuOnRightClick = true;
+            this.accordion1.ShowToolMenuRequiresPositiveFillWeight = false;
+            this.accordion1.Size = new System.Drawing.Size(1376, 429);
+            this.accordion1.TabIndex = 0;
+            this.accordion1.UpArrow = null;
             // 
             // MainForm
             // 

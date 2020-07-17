@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 namespace XMLEditor
 {
     [Serializable]
-    public class Author
+    public class Author : IDisposable
     {
         Article _parent;
 
@@ -55,13 +55,20 @@ namespace XMLEditor
 
             _up = new Button { };
             _up.Left = 700;
-            _up.Width = 40;
+            _up.Width = 20;
+            _up.Height = 20;
             _down = new Button { };
-            _down.Left = 750;
-            _down.Width = 40;
+            _down.Left = 730;
+            _down.Width = 20;
+            _down.Height = 20;
+            _down.Image = XMLEditor.Properties.Resources._010_LowPriority_16x16_72;
+            _down.BackgroundImageLayout = ImageLayout.Stretch;
             _delete = new Button { };
-            _delete.Left = 800;
-            _delete.Width = 40;
+            _delete.Left = 760;
+            _delete.Width = 20;
+            _delete.Height = 20;
+            _delete.Image = XMLEditor.Properties.Resources._1385_Disable_16x16_72;
+            _delete.BackgroundImageLayout = ImageLayout.Stretch;
             _delete.Click += new EventHandler(deleteButtonClick);
 
 
@@ -154,5 +161,18 @@ namespace XMLEditor
         {
             _parent.deleteAuthor(this);
         }
+
+        public void Dispose()
+        {
+            _up.Dispose();
+            _down.Dispose();
+            _delete.Dispose();
+            _firstname.Dispose();
+            _lastname.Dispose();
+            _affiliation.Dispose();
+            _panel.Dispose();
+
+        }
+
     }
 }
