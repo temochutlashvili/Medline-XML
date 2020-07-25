@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,6 +59,9 @@
     </Compile>
     <Compile Include="Article.cs" />
     <Compile Include="Author.cs" />
+    <Compile Include="FontEx.cs" />
+    <Compile Include="FontExWPF.cs" />
+    <Compile Include="IToolTips.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,6 +69,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Journal.cs" />
+    <Compile Include="MultiKey.cs" />
     <Compile Include="OpacityEx.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,14 +108,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\010_LowPriority_16x16_72.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\1385_Disable_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\010_HighPriority_16x16_72.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

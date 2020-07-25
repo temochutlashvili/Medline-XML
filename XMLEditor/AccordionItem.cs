@@ -27,6 +27,10 @@ namespace XMLEditor
             return this.authorsPanel;
         }
 
+        private void upClick(object sender, EventArgs e)
+        {
+            
+        }
     }
 
 }

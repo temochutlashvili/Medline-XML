@@ -63,6 +63,16 @@ namespace XMLEditor.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _010_HighPriority_16x16_72 {
+            get {
+                object obj = ResourceManager.GetObject("010_HighPriority_16x16_72", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _010_LowPriority_16x16_72 {
             get {
                 object obj = ResourceManager.GetObject("_010_LowPriority_16x16_72", resourceCulture);

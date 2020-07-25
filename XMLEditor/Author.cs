@@ -15,14 +15,14 @@ namespace XMLEditor
         Article _parent;
 
         Panel _authorsPanel;
-        Panel _panel;
-        TextBox _firstname;
-        TextBox _lastname;
-        TextBox _affiliation;
+        Panel _panel = new Panel { };
+        TextBox _firstname = new TextBox { };
+        TextBox _lastname = new TextBox { };
+        TextBox _affiliation = new TextBox { };
 
-        Button _up;
-        Button _down;
-        Button _delete;
+        Button _up = new Button { };
+        Button _down = new Button { };
+        Button _delete = new Button { };
 
         public Author()
         {
@@ -34,18 +34,14 @@ namespace XMLEditor
             _parent = parent;
 
             _authorsPanel = authorsPanel;
-            _panel = new Panel { };
             _panel.Height = 20;
             _panel.Width = 1000;
             _authorsPanel.Controls.Add(_panel);
-            _firstname = new TextBox { };
             _firstname.Left = 130;
             _firstname.Width = 40;
             
-            _lastname = new TextBox { };
             _lastname.Left = 20;
             
-            _affiliation = new TextBox { };
             _affiliation.Left = 180;
             _affiliation.Width = 500;
             _affiliation.Text = findAffiliation(lastname, affiliation);
@@ -53,17 +49,16 @@ namespace XMLEditor
             _firstname.Text = removeNumberFromName(firstname);
             _lastname.Text = removeNumberFromName(lastname);
 
-            _up = new Button { };
             _up.Left = 700;
             _up.Width = 20;
             _up.Height = 20;
-            _down = new Button { };
+            _up.Click += new EventHandler(upButtonClick);
             _down.Left = 730;
             _down.Width = 20;
             _down.Height = 20;
             _down.Image = XMLEditor.Properties.Resources._010_LowPriority_16x16_72;
             _down.BackgroundImageLayout = ImageLayout.Stretch;
-            _delete = new Button { };
+            _down.Click += new EventHandler(downButtonClick);
             _delete.Left = 760;
             _delete.Width = 20;
             _delete.Height = 20;
@@ -71,6 +66,51 @@ namespace XMLEditor
             _delete.BackgroundImageLayout = ImageLayout.Stretch;
             _delete.Click += new EventHandler(deleteButtonClick);
 
+            _panel.Controls.Add(_firstname);
+            _panel.Controls.Add(_lastname);
+            _panel.Controls.Add(_affiliation);
+
+            _panel.Controls.Add(_up);
+            _panel.Controls.Add(_down);
+            _panel.Controls.Add(_delete);
+        }
+
+        public void addAuthorControls(Article parent, Panel authorsPanel)
+        {
+            _parent = parent;
+
+            _authorsPanel = authorsPanel;
+            _panel.Height = 24;
+            _panel.Width = 1000;
+            _authorsPanel.Controls.Add(_panel);
+            _firstname.Left = 130;
+            _firstname.Width = 40;
+
+            _lastname.Left = 20;
+
+            _affiliation.Left = 180;
+            _affiliation.Width = 500;
+            _affiliation.Text = findAffiliation(this.Lastname, this.Affiliation);
+
+            _firstname.Text = removeNumberFromName(this.Firstname);
+            _lastname.Text = removeNumberFromName(this.Lastname);
+
+            _up.Left = 700;
+            _up.Width = 24;
+            _up.Height = 24;
+            _up.Click += new EventHandler(upButtonClick);
+            _down.Left = 730;
+            _down.Width = 24;
+            _down.Height = 24;
+            _down.Image = XMLEditor.Properties.Resources._010_LowPriority_16x16_72;
+            _down.BackgroundImageLayout = ImageLayout.Stretch;
+            _down.Click += new EventHandler(downButtonClick);
+            _delete.Left = 760;
+            _delete.Width = 24;
+            _delete.Height = 24;
+            _delete.Image = XMLEditor.Properties.Resources._1385_Disable_16x16_72;
+            _delete.BackgroundImageLayout = ImageLayout.Stretch;
+            _delete.Click += new EventHandler(deleteButtonClick);
 
             _panel.Controls.Add(_firstname);
             _panel.Controls.Add(_lastname);
@@ -160,6 +200,18 @@ namespace XMLEditor
         public void deleteButtonClick(object sender, System.EventArgs e)
         {
             _parent.deleteAuthor(this);
+        }
+
+        public void upButtonClick(object sender, System.EventArgs e)
+        {
+            _parent.moveAuthorUp(this);
+            _panel.BringToFront();
+        }
+
+        public void downButtonClick(object sender, System.EventArgs e)
+        {
+            _parent.moveAuthorDown(this);
+            _panel.SendToBack();
         }
 
         public void Dispose()

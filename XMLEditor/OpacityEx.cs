@@ -137,7 +137,7 @@ public static class OpacityEx {
 
 		private static Bitmap CreateScreenCapture(Control c, Rectangle r) {
 			Bitmap bmp = null;
-			using (var g = c.CreateGraphics()) {
+			using (Graphics g = c.CreateGraphics()) {
 				bmp = new Bitmap(r.Width, r.Height, g);
 				Graphics g2 = Graphics.FromImage(bmp);
 				IntPtr g2_hdc = g2.GetHdc();

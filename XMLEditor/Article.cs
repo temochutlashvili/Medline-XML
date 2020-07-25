@@ -172,5 +172,33 @@ namespace XMLEditor
             _authors.Remove(author);
             author.Dispose();
         }
+
+        public void moveAuthorUp(Author author)
+        {
+            var index = _authors.IndexOf(author);
+            if(index > 0) {
+                _authors.Remove(author);
+                _authors.Insert(--index, author);
+            }
+        }
+
+        public void moveAuthorDown(Author author)
+        {
+            var index = _authors.IndexOf(author);
+            if(index < _authors.Count - 1)
+            {
+                _authors.Remove(author);
+                _authors.Insert(++index, author);
+            }
+        }
+
+        public void rebuildAuthors()
+        {
+            _accordionItem.getAuthorsControl().Controls.Clear();
+            foreach (Author author in _authors)
+            {
+                author.addAuthorControls(this, _accordionItem.getAuthorsControl());
+            }
+        }
     }
 }

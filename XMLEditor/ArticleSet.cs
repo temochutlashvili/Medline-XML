@@ -58,10 +58,7 @@ namespace XMLEditor
             foreach(Article article in _articles)
             {
                 _accordion.Add(article.getItem().getControl(), article.ArticleTitle, article.ArticleTitle, 0, false);
-                foreach(Author author in article._authors)
-                {
-
-                }
+                article.rebuildAuthors();
             }
         }
 

@@ -28,10 +28,6 @@ namespace XMLEditor
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //for(int i = 0; i < 10; i++) {
-            //    accordion1.Add(new AccordionItem().getControl(), "1", "1", 0, false);
-            //}
-
             articleSet = new ArticleSet(accordion1);
             rawXML.Text = articleSet.toString();
         }
@@ -203,6 +199,37 @@ namespace XMLEditor
             }
 
             System.IO.File.WriteAllText(currentFile, articleSet.toString());
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch(((TabControl)sender).SelectedIndex)
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    generateRaw();
+                    break;
+            }
+        }
+
+        private void generateRaw()
+        {
+            rawXML.Lines = articleSet.toString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        }
+
+        private void expandAllClick(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void collapseAllClick(object sender, EventArgs e)
+        {
+            
         }
     }
 }

@@ -39,8 +39,12 @@
             this.authorsPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.TableLayoutPanel();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.headerPanel.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // pageStartTextBox
@@ -145,13 +149,15 @@
             this.panel1.Controls.Add(this.authorsPanel, 0, 1);
             this.panel1.Controls.Add(this.headerPanel, 0, 0);
             this.panel1.Controls.Add(this.textBox1, 0, 2);
+            this.panel1.Controls.Add(this.panel2, 0, 3);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.RowCount = 3;
+            this.panel1.RowCount = 4;
             this.panel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 65F));
             this.panel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.panel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 180F));
-            this.panel1.Size = new System.Drawing.Size(536, 251);
+            this.panel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.panel1.Size = new System.Drawing.Size(536, 281);
             this.panel1.TabIndex = 13;
             // 
             // textBox1
@@ -163,6 +169,37 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(530, 174);
             this.textBox1.TabIndex = 8;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.button2);
+            this.panel2.Controls.Add(this.button1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel2.Location = new System.Drawing.Point(333, 254);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(200, 24);
+            this.panel2.TabIndex = 9;
+            // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button2.Image = global::XMLEditor.Properties.Resources._010_HighPriority_16x16_72;
+            this.button2.Location = new System.Drawing.Point(152, 0);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(24, 24);
+            this.button2.TabIndex = 1;
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button1.Image = global::XMLEditor.Properties.Resources._010_LowPriority_16x16_72;
+            this.button1.Location = new System.Drawing.Point(176, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(24, 24);
+            this.button1.TabIndex = 0;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.upClick);
             // 
             // AccordionItem
             // 
@@ -178,6 +215,7 @@
             this.headerPanel.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -196,5 +234,8 @@
         private System.Windows.Forms.TableLayoutPanel panel1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button addAuthorButton;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
     }
 }

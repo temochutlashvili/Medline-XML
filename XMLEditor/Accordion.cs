@@ -5,9 +5,21 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.Layout;
+using Opulos.Core.Utils; // only for IDisposableEx
 
 namespace Opulos.Core.UI {
 
+// Version 2019.12.13
+// -Added check for layoutEventArgs != null in layout engine.
+// -Put back OnFontChanged method that updates the toolBox's
+//  font size.
+// -Changed toolBox default font to Segoe UI Symbol, which
+//  should work on Windows 7.
+// -Added IsHandleCreated checks to prevent premature Handle
+//  creation.
+// -c2.Padding and c2.Margin are assigned before the content
+//  Control added to prevent OnSizeChanged events.
+// 
 // Version 2015.08.18
 // -Added code to eliminate scrollbar flicker when sliding
 //  open for a nested accordion.
@@ -95,7 +107,7 @@ namespace Opulos.Core.UI {
 
 ///<summary>Use the Add(Control, "Title") method to add controls to the accordion.
 ///
-///<para>Brief explation of 'Extra Height': Extra height is calculated to be the difference
+///<para>Brief explanation of 'Extra Height': Extra height is calculated to be the difference
 ///of the accordion's height and the of the sum of all heights of the accordion's contents:
 ///header checkboxes, margins, paddings, and preferred size heights of added controls.
 ///If the difference is less than zero then any controls that can be smaller than their
@@ -113,7 +125,7 @@ namespace Opulos.Core.UI {
 ///clicking and dragging the mouse. This is especially useful when using multiline
 ///textboxes. Instead of having to allocate a large number of preset visible lines,
 ///the textboxes can be added to an accordion and the user can increase the height
-///of any textbox as needed by clicking and dragging in the grab area.</para>
+///of any textbox as needed by clicking and dragging a resize bar.</para>
 ///</summary>
 public class Accordion : UserControl, IMessageFilter {
 
@@ -370,7 +382,7 @@ public class Accordion : UserControl, IMessageFilter {
 	private bool isAnimating = false;
 	private AccordionLayoutEngine layoutEngine = new AccordionLayoutEngine();
 	private Control2 lastChecked = null; // used to track the last opened control so it can be closed if OpenOneOnly is true
-	private ToolTip tips = new ToolTip();
+	private IToolTips tips = new ToolTip2(); // change this to ToolTip2 if ToolTips.cs doesn't exist
 	private ToolBox toolBox = new ToolBox();
 	// used when OpenOneOnly is true. The previously open one is automatically closed which fires a checkedchanged event.
 	// isAdjusting is used to ignore that event.
@@ -402,6 +414,7 @@ public class Accordion : UserControl, IMessageFilter {
 	private IntPtr hwndPreviousFocus = IntPtr.Zero; // handle of window with previous focus before mouse down
 	private bool ignoreNCCALCSIZE = false;
 	private bool ignoreNCPAINT = false;
+	private Font toolBoxFont = null;
 	//--------------------------------------------
 
 	///<summary>
@@ -460,6 +473,23 @@ public class Accordion : UserControl, IMessageFilter {
 		}
 		//---------
 		Application.AddMessageFilter(this);
+		try {
+			toolBoxFont = new Font("Segoe UI Symbol", SystemFonts.MenuFont.Size);
+			toolBox.Font = toolBoxFont;
+		} catch {}
+	}
+
+	// this class is only used for distribution of Accordion open source
+	private class ToolTip2 : ToolTip, IToolTips {
+		public void Add(Control control, String text) {
+			this.SetToolTip(control, text);
+		}
+
+		public void Batch(Control control, string text) {
+			this.SetToolTip(control, text);
+		}
+
+		public void ApplyBatched() {}
 	}
 
 	protected override Point ScrollToControl(Control activeControl) {
@@ -574,6 +604,28 @@ public class Accordion : UserControl, IMessageFilter {
 		return Add(args);
 	}
 
+	///<summary>Removes all controls from the accordion. The resize bars and checkboxes are disposed, but the user controls are not.</summary>
+	public void Clear() {
+		SuspendLayout();
+		tips.RemoveAll();
+		for (int i = Control2s.Count - 1; i >= 0; i--) {
+			Control2 c2 = Control2s[i];
+			c2.SuspendLayout();
+			c2.Controls.Remove(c2.c); // prevent c from being disposed
+			c2.ResumeLayout(false);
+			Control2s.RemoveAt(i);
+		}
+
+		for (int i = Controls.Count - 1; i >= 0; i--) {
+			Control c = Controls[i];
+			Controls.RemoveAt(i);
+			c.Dispose(); // could be resize bar, Control2 or CheckBox
+		}
+
+		ResizeBarsList.Clear();
+		ResumeLayout(false);
+	}
+
 	///<summary>Same as the other Add method, except the inputs are encapsulated in an object.</summary>
 	public CheckBox Add(AddArgs args) {
 		args.Owner = this;
@@ -625,9 +677,7 @@ public class Accordion : UserControl, IMessageFilter {
 			resizeBar = (rbf != null ? rbf.CreateResizeBar(rbMargin) : null);
 		}
 
-		Control2 c2 = new Control2(cb, c, resizeBar, fillWt, layoutArgs);
-		c2.Padding = c2Padding;
-		c2.Margin = c2Margin;
+		Control2 c2 = new Control2(cb, c, resizeBar, fillWt, layoutArgs, c2Padding, c2Margin);
 		Control2s.Add(c2);
 
 		if (contentBackColor.HasValue)
@@ -639,8 +689,11 @@ public class Accordion : UserControl, IMessageFilter {
 			c.BackColor = ControlBackColor.Value;
 
 		if (!String.IsNullOrEmpty(toolTip)) {
-			//tips.Add(cb, toolTip);
-			tips.SetToolTip(cb, toolTip);
+			if (IsHandleCreated)
+				tips.Add(cb, toolTip); // for some reason tips don't show up ??
+			else
+				tips.Batch(cb, toolTip);
+			//tips.SetToolTip(cb, toolTip);
 		}
 
 		// adding controls fires a Layout event on the host which causes
@@ -738,13 +791,15 @@ public class Accordion : UserControl, IMessageFilter {
 
 			InternalPerformLayout();
 
-			if (VerticalScroll.Visible) {
+			if (VerticalScroll.Visible && IsHandleCreated) {
 				var r1 = new RECT();
 				var r2 = new RECT();
-				GetWindowRect(Handle, out r2);
+				GetWindowRect(this.Handle, out r2);
 
 				if (cb.Checked) {
-					GetWindowRect(c2.Handle, out r1);
+					if (c2.IsHandleCreated)
+						GetWindowRect(c2.Handle, out r1);
+
 					if (r1.Bottom > r2.Bottom) {
 						isOpening = true;
 						scrollToBottom = true;
@@ -757,7 +812,8 @@ public class Accordion : UserControl, IMessageFilter {
 				else {
 					// if checkbox is closed, then only need to
 					// scroll to the bottom of the checkbox.
-					GetWindowRect(cb.Handle, out r1);
+					if (cb.IsHandleCreated)
+						GetWindowRect(cb.Handle, out r1);
 
 					if (r1.Bottom > r2.Bottom) {
 						isOpening = true;
@@ -827,7 +883,9 @@ public class Accordion : UserControl, IMessageFilter {
 				// turn off screen updating and set c2.Visible to true. If this is not done,
 				// then controls that have never been shown before appear animated as as a
 				// 150x150 gray rectangle.
-				SendMessage(this.Handle, WM_SETREDRAW, false, 0);
+				bool ihc = this.IsHandleCreated;
+				if (ihc)
+					SendMessage(this.Handle, WM_SETREDRAW, false, 0);
 				//--------
 				// for nested accordions, it was very observable that setting c2.Visible = true would
 				// sometimes briefly cause scrollbars. Opening and closing the same checkbox header over
@@ -867,8 +925,10 @@ public class Accordion : UserControl, IMessageFilter {
 					// updating is turned off).
 					RECT r1 = new RECT();
 					RECT r2 = new RECT();
-					GetWindowRect(c2.Handle, out r1);
-					GetWindowRect(Handle, out r2);
+					if (c2.IsHandleCreated)
+						GetWindowRect(c2.Handle, out r1);
+					if (ihc)
+						GetWindowRect(this.Handle, out r2);
 
 					// only need to scroll down if c2 is below the visible area of the accordion
 					if (r1.Bottom > r2.Bottom) {
@@ -902,7 +962,8 @@ public class Accordion : UserControl, IMessageFilter {
 				// ready for the slide-down animation. The top-most accordion (tma) is refreshed.
 				// Opening a checkbox in a nested accordion will push the controls in the
 				// parent accordion downwards.
-				SendMessage(this.Handle, WM_SETREDRAW, true, 0);
+				if (ihc)
+					SendMessage(this.Handle, WM_SETREDRAW, true, 0);
 				tma.Refresh(); // required to repaint the new positions of the controls
 				// step 5:
 				// Call the animate function. But wait! First cache the index of c2 because for
@@ -965,6 +1026,19 @@ public class Accordion : UserControl, IMessageFilter {
 
 		layout(true);
 		return cb;
+	}
+
+	protected override void OnHandleCreated(EventArgs e) {
+		base.OnHandleCreated(e);
+		tips.ApplyBatched();
+	}
+
+	///<summary>
+	///Set's the text of the checkbox, prefixing the up-arrow or down-arrow, based on the check state.
+	///<para>Same as <code>acc.GetXXXArrow() + text;</code></para>
+	///</summary>
+	public virtual void SetCheckBoxText(CheckBox cb, String text) {
+		cb.Text = (cb.Checked ? GetUpArrow() : GetDownArrow()) + text;
 	}
 
 	protected override void WndProc(ref Message m) {
@@ -1237,7 +1311,7 @@ public class Accordion : UserControl, IMessageFilter {
 				var h = hwndPreviousFocus;
 				while (h != IntPtr.Zero) {
 					h = GetParent(h);
-					if (h == c2.Handle)
+					if (c2.IsHandleCreated && h == c2.Handle)
 						break;
 				}
 				if (h == IntPtr.Zero)
@@ -1289,6 +1363,9 @@ public class Accordion : UserControl, IMessageFilter {
 
 	// pt needs to be in screen coordinates
 	private Control2 FindControl2(Point pt) {
+		if (!IsHandleCreated)
+			return null;
+
 		// the mouse should only turn into a grab cursor if the accordion is in the window that
 		// is currently the foreground window, AND the mouse is directly over _this_ accordion (or
 		// one of the accordion's child controls)
@@ -1371,7 +1448,7 @@ public class Accordion : UserControl, IMessageFilter {
 				if (!c.CanSelect)
 					c = c.GetNextControl(c, true);
 
-				if (c != null) {
+				if (c != null && c.IsHandleCreated) {
 					RECT r = new RECT();
 					GetWindowRect(c.Handle, out r);
 					if (IsOverlapping(accBounds, r))
@@ -1410,12 +1487,20 @@ public class Accordion : UserControl, IMessageFilter {
 		}
 	}
 
+	protected override void OnFontChanged(EventArgs e) {
+		base.OnFontChanged(e);
+		Font toolBoxFontNew = new Font(toolBoxFont.FontFamily, this.Font.Size);
+		toolBox.Font = toolBoxFontNew;
+		toolBoxFont.Dispose();
+		toolBoxFont = toolBoxFontNew;
+	}
+
 	private void FadeResizeBars(Point pt, Point absPt) {
 		bool isOverCheckBox = false;
 		IntPtr hWnd = WindowFromPoint(absPt);
 		foreach (Control2 c2 in Control2s) {
 			var cb = c2.cb;
-			if (cb.Visible) {
+			if (cb.Visible && cb.IsHandleCreated) {
 				if (hWnd == cb.Handle) {
 					isOverCheckBox = true;
 					break;
@@ -1480,11 +1565,14 @@ public class Accordion : UserControl, IMessageFilter {
 		internal bool ResizeBarIsPartiallyVisible = false;
 		internal Padding resizeBarMargin = Padding.Empty;
 
-		public Control2(CheckBox cb, Control c, Control resizeBar, double fillWt, LayoutArgs layoutArgs) {
+		public Control2(CheckBox cb, Control c, Control resizeBar, double fillWt, LayoutArgs layoutArgs, Padding c2Padding, Padding c2Margin) {
 			this.cb = cb;
 			this.c = c;
 			this.fillWt = fillWt;
 			this.layoutArgs = layoutArgs;
+			this.Padding = c2Padding;
+			this.Margin = c2Margin;
+
 			Visible = cb.Checked;
 			Controls.Add(c);
 			ResizeBar = resizeBar;
@@ -1608,8 +1696,11 @@ public class Accordion : UserControl, IMessageFilter {
 	}
 
 	public override Size GetPreferredSize(Size proposedSize) {
-		bool includeInvisible = !this.Visible;
-		return layoutEngine.GetPreferredSize(this, true, true, includeInvisible);
+		bool v = this.Visible;
+		bool includeInvisible = !v;
+		bool addDH = v;
+		Size sz = layoutEngine.GetPreferredSize(this, addDH, true, includeInvisible);
+		return sz;
 	}
 
 	public override LayoutEngine LayoutEngine {
@@ -1678,10 +1769,10 @@ public class Accordion : UserControl, IMessageFilter {
 
 		public override bool Layout(Object container, LayoutEventArgs layoutEventArgs) {
 			Accordion acc = (Accordion) container;
-			if (acc.isAdjusting)
+			if (acc.isAdjusting || !acc.IsHandleCreated)
 				return false;
 
-			if (acc.isAnimating || acc.IsResizeBar(layoutEventArgs.AffectedControl))
+			if (acc.isAnimating || layoutEventArgs != null && acc.IsResizeBar(layoutEventArgs.AffectedControl))
 				return false;
 
 			Size clientSize = acc.ClientSize; // ClientSize accounts for currently visible scrollbars
@@ -2264,6 +2355,69 @@ public class Accordion : UserControl, IMessageFilter {
 		}
 	}
 
+	public static FontGlyph GetPackGlyph(Font f) {
+		String[] names = new [] { f.Name };
+		float[] sizes = new [] { f.Size };
+		String[] texts = new [] { "\u2191" };
+		return FontEx.CreateFont(names, texts, sizes, null);
+	}
+
+	public static FontGlyph GetPackAllGlyph(Font f) {
+		String[] names = new [] { f.Name };
+		float[] sizes = new [] { f.Size };
+		String[] texts = new [] { "\u21c8" };
+		return FontEx.CreateFont(names, texts, sizes, null);
+	}
+
+	public static FontGlyph GetCloseAllGlyph(Font f) {
+		String[] names = new [] { f.Name };
+		float[] sizes = new [] { f.Size };
+		String[] texts = new [] { "\u23EB" };
+		return FontEx.CreateFont(names, texts, sizes, null);
+	}
+
+	public static FontGlyph GetFillGlyph(Font f) {
+		String[] names = new [] { f.Name };
+		float[] sizes = new [] { f.Size };
+		String[] texts = new [] { "\u2193" };
+		return FontEx.CreateFont(names, texts, sizes, null);
+	}
+
+	public static FontGlyph GetFillAllGlyph(Font f) {
+		String[] names = new [] { f.Name };
+		float[] sizes = new [] { f.Size };
+		String[] texts = new [] { "\u23EB" };
+		return FontEx.CreateFont(names, texts, sizes, null);
+	}
+
+	public static FontGlyph GetOpenAllGlyph(Font f) {
+		String[] names = new [] { f.Name };
+		float[] sizes = new [] { f.Size };
+		String[] texts = new [] { "\u23EC" };
+		return FontEx.CreateFont(names, texts, sizes, null);
+	}
+
+	public static FontGlyph GetLockGlyph(Font f) {
+		String[] names = new [] { f.Name, "Segoe UI Symbol" };
+		float[] sizes = new [] { f.Size, f.Size };
+		String[] texts = new [] { "\uD83D\uDD12", "\uD83D\uDD12" };
+		return FontEx.CreateFont(names, texts, sizes, null);
+	}
+
+	public static FontGlyph GetLockAllGlyph(Font f) {
+		String[] names = new [] { f.Name };
+		float[] sizes = new [] { f.Size };
+		String[] texts = new [] { "\uD83D\uDD10" };
+		return FontEx.CreateFont(names, texts, sizes, null);
+	}
+
+	public static FontGlyph GetUnlockAllGlyph(Font f) {
+		String[] names = new [] { f.Name };
+		float[] sizes = new [] { f.Size };
+		String[] texts = new [] { "\uD83D\uDD11" };
+		return FontEx.CreateFont(names, texts, sizes, null);
+	}
+
 	private class ToolBox : ToolStripDropDown {
 		ToolStripSplitButton miPack = new ToolStripSplitButton("\u2191") { ToolTipText = "Pack", Anchor = AnchorStyles.Left | AnchorStyles.Right }; // up arrow
 		ToolStripButton miPackAll = new ToolStripButton("\u21c8") { ToolTipText = "Pack All" }; // two up arrows side by side
@@ -2278,8 +2432,25 @@ public class Accordion : UserControl, IMessageFilter {
 		ToolStripButton miUnlockAll = new ToolStripButton("\uD83D\uDD11") { ToolTipText = "Unlock All" }; // key
 
 		Control2 _c2 = null;
+		DateTime leaveTime;
+
+		private static void AssignFont(ToolStripItem item, FontGlyph fontGlyph) {
+			item.Text = fontGlyph.Text;
+			item.Font = fontGlyph.Font;
+		}
 
 		public ToolBox() {
+
+			Font defaultFont = this.Font;
+			AssignFont(miPack, GetPackGlyph(defaultFont));
+			AssignFont(miPackAll, GetPackAllGlyph(defaultFont));
+			AssignFont(miCloseAll, GetCloseAllGlyph(defaultFont));
+			AssignFont(miFill, GetFillGlyph(defaultFont));
+			AssignFont(miFillAll, GetFillAllGlyph(defaultFont));
+			AssignFont(miOpenAll, GetOpenAllGlyph(defaultFont));
+			AssignFont(miLock, GetLockGlyph(defaultFont));
+			AssignFont(miLockAll, GetLockAllGlyph(defaultFont));
+			AssignFont(miUnlockAll, GetUnlockAllGlyph(defaultFont));
 
 			var menu = this;
 			menu.Padding = Padding = new Padding(3, 2, 3, 1);
@@ -2517,7 +2688,6 @@ public class Accordion : UserControl, IMessageFilter {
 			};
 		}
 
-		DateTime leaveTime;
 		protected override void OnMouseLeave(EventArgs e) {
  			base.OnMouseLeave(e);
 			ToolBox toolBox = this;
@@ -2632,16 +2802,11 @@ public class Accordion : UserControl, IMessageFilter {
 	protected override void Dispose(bool disposing) {
 		base.Dispose(disposing);
 		if (disposing) {
-			if (tips != null)
-				tips.Dispose();
-
-			if (toolBox != null)
-				toolBox.Dispose();
+			tips.Dispose();
+			toolBox.Dispose();
+			toolBoxFont.Dispose();
 
 			Application.RemoveMessageFilter(this);
-
-			tips = null;
-			toolBox = null;
 		}
 	}
 
@@ -2686,7 +2851,7 @@ public class Accordion : UserControl, IMessageFilter {
 
 	private static bool AnimateWindow(Control c, int dwTime, AnimateWindowFlags dwFlags) {
 		int flags = (int) dwFlags;
-		if (flags == 0)
+		if (flags == 0 || !c.IsHandleCreated)
 			return false;
 
 		return AnimateWindow(c.Handle, dwTime, flags);
@@ -2695,6 +2860,9 @@ public class Accordion : UserControl, IMessageFilter {
 	// get the control directly under the point
 	// traverse up and check if any parent control is this control
 	private bool IsMouseOverThisControl(Point pt) {
+		if (!IsHandleCreated)
+			return false;
+
 		// this approach may be better suited if hosting WPF controls:
 		IntPtr hWnd = WindowFromPoint(pt);
 		IntPtr h = this.Handle;
