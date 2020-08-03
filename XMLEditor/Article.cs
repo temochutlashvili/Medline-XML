@@ -1,6 +1,7 @@
 ﻿using Opulos.Core.UI;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -8,19 +9,27 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Schema;
 
 namespace XMLEditor
 {
     [Serializable]
-    public class Article
+    public class Article 
+        //: IXmlSerializable
     {
-        TextBox _articleTitle = new TextBox { };
-        string _firstPage = "";
-        string _lastPage = "";
-        string _language = "";
-        string _abstract = "";
+        public enum ArticleEventType {
+            delete,
+            up,
+            down
+        }
 
-        AccordionItem _accordionItem;
+        public delegate void ArticleEvent(object sender, ArticleEventArgs ea);
+        public event ArticleEvent articeEvent;
+
+        RichTextBox _articleTitle = new RichTextBox { };
+
+        AccordionItem _accordionItem = new AccordionItem();
 
         [XmlElement("Journal")]
         public Journal journal;
@@ -33,12 +42,12 @@ namespace XMLEditor
         {
             get
             {
-                return _articleTitle.Text;
+                return _accordionItem.getTitle().Text;
             }
 
             set
             {
-                _articleTitle.Text = value;
+                _accordionItem.getTitle().Text = value;
             }
         }
 
@@ -47,12 +56,12 @@ namespace XMLEditor
         {
             get
             {
-                return _firstPage;
+                return _accordionItem.getFirstPage().Text;
             }
 
             set
             {
-                _firstPage = value;
+                _accordionItem.getFirstPage().Text = value;
             }
         }
 
@@ -61,12 +70,12 @@ namespace XMLEditor
         {
             get
             {
-                return _lastPage;
+                return _accordionItem.getLastPage().Text;
             }
 
             set
             {
-                _lastPage = value;
+                _accordionItem.getLastPage().Text = value;
             }
         }
 
@@ -75,26 +84,26 @@ namespace XMLEditor
         {
             get
             {
-                return _language;
+                return _accordionItem.getLanguage().Text;
             }
 
             set
             {
-                _language = value;
+                _accordionItem.getLanguage().Text = value;
             }
         }
 
-        [XmlElement]
+
         public string Abstract
         {
             get
             {
-                return _abstract;
+                return _accordionItem.getAbstract().Text;
             }
 
             set
             {
-                _abstract = value;
+                _accordionItem.getAbstract().Text = value;
             }
         }
 
@@ -117,10 +126,11 @@ namespace XMLEditor
 
         public Article(Accordion accordion)
         {
-            _accordionItem = new AccordionItem();
+            //_accordionItem = new AccordionItem();
+            setHandlers();
             _accordionItem.TopLevel = false;
             addAddAuthorEvent();
-            journal = new Journal();
+            journal = Journal.Instance;
             _authors = new List<Author>();
             //_authors.Add(new Author(_accordionItem.getAuthorsControl()));
         }
@@ -156,6 +166,14 @@ namespace XMLEditor
             return _accordionItem;
         }
 
+        public void addTitleEvents()
+        {
+            _accordionItem.getFirstPage().TextChanged += new EventHandler(composeTitleChanged);
+            _accordionItem.getLastPage().TextChanged += new EventHandler(composeTitleChanged);
+            _accordionItem.getTitle().TextChanged += new EventHandler(composeTitleChanged);
+            _accordionItem.getLanguage().SelectedIndexChanged += new EventHandler(composeTitleChanged);
+        }
+
         private void addAddAuthorEvent()
         {
             Button but = (Button) this._accordionItem.Controls.Find("addAuthorButton", true)[0];
@@ -180,6 +198,10 @@ namespace XMLEditor
                 _authors.Remove(author);
                 _authors.Insert(--index, author);
             }
+            foreach(Author a in _authors)
+            {
+                a.getPanel().BringToFront();
+            }
         }
 
         public void moveAuthorDown(Author author)
@@ -189,6 +211,10 @@ namespace XMLEditor
             {
                 _authors.Remove(author);
                 _authors.Insert(++index, author);
+            }
+            foreach (Author a in _authors)
+            {
+                a.getPanel().SendToBack();
             }
         }
 
@@ -200,5 +226,96 @@ namespace XMLEditor
                 author.addAuthorControls(this, _accordionItem.getAuthorsControl());
             }
         }
+
+        private void setHandlers()
+        {
+            Button delbut = (Button)this._accordionItem.Controls.Find("deleteButton", true)[0];
+            delbut.Click += new EventHandler(deleteButtonClick);
+
+            Button upbut = (Button)this._accordionItem.Controls.Find("upButton", true)[0];
+            upbut.Click += new EventHandler(upButtonClick);
+
+            Button downbut = (Button)this._accordionItem.Controls.Find("downButton", true)[0];
+            downbut.Click += new EventHandler(downButtonClick);
+
+            //CheckBox cb = (CheckBox)this._accordionItem.Controls.Find("rawCheckBox", true)[0];
+            //cb.CheckedChanged += new EventHandler(rawCheckChanged);
+        }
+
+        public void OnAction(ArticleEventType action)
+        {
+            ArticleEvent temp = articeEvent;
+            if (temp != null)
+            {
+                ArticleEventArgs aea = new ArticleEventArgs();
+                aea.type = action;
+                temp(this, aea);
+            }
+        }
+
+        private void deleteButtonClick(object sender, System.EventArgs e)
+        {
+            OnAction(ArticleEventType.delete);
+        }
+
+        private void upButtonClick(object sender, System.EventArgs e)
+        {
+            OnAction(ArticleEventType.up);
+        }
+
+        private void downButtonClick(object sender, System.EventArgs e)
+        {
+            OnAction(ArticleEventType.down);
+        }
+
+        private void rawCheckChanged(object sender, System.EventArgs e)
+        {
+            this.Abstract = this.Abstract;
+        }
+
+        public String composeTitle()
+        {
+            return FirstPage + " - " + LastPage + " - " + Language + " - " + ArticleTitle;
+        }
+
+        public Color getStateColor()
+        {
+            if (String.IsNullOrEmpty(FirstPage) || String.IsNullOrEmpty(LastPage) || String.IsNullOrEmpty(Language))
+            {
+                return System.Drawing.Color.LightPink;
+            }
+            else
+            {
+                return SystemColors.Control;
+            }
+        }
+
+        private void composeTitleChanged(object sender, EventArgs e)
+        {
+            var acc = (Accordion)_accordionItem.getControl().Parent.Parent;
+            var cb = acc.CheckBoxForControl(_accordionItem.getControl());
+            cb.Text = composeTitle();
+            cb.BackColor = getStateColor();
+        }
+
+        public XmlSchema GetSchema()
+        {
+            return (null);
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            
+        }
+    }
+
+    public class ArticleEventArgs : EventArgs
+    {
+        public Article.ArticleEventType type { get; set; }
     }
 }

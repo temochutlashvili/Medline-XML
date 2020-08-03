@@ -16,9 +16,9 @@ namespace XMLEditor
 
         Panel _authorsPanel;
         Panel _panel = new Panel { };
-        TextBox _firstname = new TextBox { };
-        TextBox _lastname = new TextBox { };
-        TextBox _affiliation = new TextBox { };
+        RichTextBox _firstname = new RichTextBox { Multiline = false };
+        RichTextBox _lastname = new RichTextBox { Multiline = false };
+        RichTextBox _affiliation = new RichTextBox { Multiline = false };
 
         Button _up = new Button { };
         Button _down = new Button { };
@@ -52,6 +52,8 @@ namespace XMLEditor
             _up.Left = 700;
             _up.Width = 20;
             _up.Height = 20;
+            _up.Image = XMLEditor.Properties.Resources._010_HighPriority_16x16_72;
+            _up.BackgroundImageLayout = ImageLayout.Stretch;
             _up.Click += new EventHandler(upButtonClick);
             _down.Left = 730;
             _down.Width = 20;
@@ -65,6 +67,10 @@ namespace XMLEditor
             _delete.Image = XMLEditor.Properties.Resources._1385_Disable_16x16_72;
             _delete.BackgroundImageLayout = ImageLayout.Stretch;
             _delete.Click += new EventHandler(deleteButtonClick);
+
+            _firstname.VisibleChanged += new EventHandler(rtf_VisibilityChange);
+            _lastname.VisibleChanged += new EventHandler(rtf_VisibilityChange);
+            _affiliation.VisibleChanged += new EventHandler(rtf_VisibilityChange);
 
             _panel.Controls.Add(_firstname);
             _panel.Controls.Add(_lastname);
@@ -91,13 +97,14 @@ namespace XMLEditor
             _affiliation.Left = 180;
             _affiliation.Width = 500;
             _affiliation.Text = findAffiliation(this.Lastname, this.Affiliation);
-
             _firstname.Text = removeNumberFromName(this.Firstname);
             _lastname.Text = removeNumberFromName(this.Lastname);
 
             _up.Left = 700;
             _up.Width = 24;
             _up.Height = 24;
+            _up.Image = XMLEditor.Properties.Resources._010_HighPriority_16x16_72;
+            _up.BackgroundImageLayout = ImageLayout.Stretch;
             _up.Click += new EventHandler(upButtonClick);
             _down.Left = 730;
             _down.Width = 24;
@@ -119,6 +126,11 @@ namespace XMLEditor
             _panel.Controls.Add(_up);
             _panel.Controls.Add(_down);
             _panel.Controls.Add(_delete);
+        }
+
+        public Panel getPanel()
+        {
+            return _panel;
         }
 
         [XmlElement]
@@ -205,13 +217,11 @@ namespace XMLEditor
         public void upButtonClick(object sender, System.EventArgs e)
         {
             _parent.moveAuthorUp(this);
-            _panel.BringToFront();
         }
 
         public void downButtonClick(object sender, System.EventArgs e)
         {
             _parent.moveAuthorDown(this);
-            _panel.SendToBack();
         }
 
         public void Dispose()
@@ -224,6 +234,11 @@ namespace XMLEditor
             _affiliation.Dispose();
             _panel.Dispose();
 
+        }
+
+        private void rtf_VisibilityChange(object sender, EventArgs e)
+        {
+            ((RichTextBox)sender).Invalidate();
         }
 
     }

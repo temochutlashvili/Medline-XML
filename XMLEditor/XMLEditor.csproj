@@ -61,6 +61,12 @@
     <Compile Include="Author.cs" />
     <Compile Include="FontEx.cs" />
     <Compile Include="FontExWPF.cs" />
+    <Compile Include="HighlightedTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HighlightedTextBox.Designer.cs">
+      <DependentUpon>HighlightedTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="IToolTips.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -108,7 +114,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\010_LowPriority_16x16_72.png" />
   </ItemGroup>

@@ -8,10 +8,29 @@ using System.Xml.Serialization;
 namespace XMLEditor
 {
     [Serializable]
-    public class PubDate
+    public sealed class PubDate
     {
-        string _year = DateTime.Now.ToString("yyyy");
-        string _month = DateTime.Now.ToString("mm");
+        private static readonly PubDate instance = new PubDate();
+
+        static string _year;
+        static string _month;
+
+        static PubDate()
+        {
+        }
+
+        private PubDate()
+        {
+
+        }
+
+        public static PubDate Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
 
         [XmlElement]
         public string Year

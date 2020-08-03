@@ -12,6 +12,7 @@ namespace XMLEditor
 {
     public partial class AccordionItem : Form
     {
+
         public AccordionItem()
         {
             InitializeComponent();
@@ -27,9 +28,34 @@ namespace XMLEditor
             return this.authorsPanel;
         }
 
-        private void upClick(object sender, EventArgs e)
+        public TextBox getFirstPage()
         {
-            
+            return pageStartTextBox;
+        }
+
+        public TextBox getLastPage()
+        {
+            return pageEndTextBox;
+        }
+
+        public ComboBox getLanguage()
+        {
+            return languageComboBox;
+        }
+
+        public RichTextBox getAbstract()
+        {
+            return abstractTextBox;
+        }
+
+        public RichTextBox getTitle()
+        {
+            return titleTextBox;
+        }
+
+        private void rtf_VisibilityChange(object sender, EventArgs e)
+        {
+            ((RichTextBox)sender).Invalidate();
         }
     }
 

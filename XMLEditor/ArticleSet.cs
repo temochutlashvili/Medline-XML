@@ -1,6 +1,7 @@
 ﻿using Opulos.Core.UI;
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -44,7 +45,10 @@ namespace XMLEditor
         public void addAricle(Article article)
         {
             _articles.Add(article);
-            _accordion.Add(article.getItem().getControl(), article.ArticleTitle, article.ArticleTitle, 0, false);
+            article.articeEvent += article_Action;
+            article.addTitleEvents();
+            CheckBox cb = _accordion.Add(article.getItem().getControl(), article.composeTitle(), article.composeTitle(), 0, false);
+            cb.BackColor = article.getStateColor();
         }
 
         public void setAccordion(Accordion accordion)
@@ -57,12 +61,60 @@ namespace XMLEditor
             _accordion.Controls.Clear();
             foreach(Article article in _articles)
             {
-                _accordion.Add(article.getItem().getControl(), article.ArticleTitle, article.ArticleTitle, 0, false);
+                CheckBox cb =_accordion.Add(article.getItem().getControl(), article.composeTitle(), article.composeTitle(), 0, false);
+                cb.BackColor = article.getStateColor();
+                article.addTitleEvents();
                 article.rebuildAuthors();
             }
         }
 
-        
+        void article_Action(object sender, ArticleEventArgs ea)
+        {
+            switch (ea.type)
+            {
+                case Article.ArticleEventType.delete:
+                    deleteArticle(sender as Article);
+                    break;
+                case Article.ArticleEventType.up:
+                    moveArticleUp(sender as Article);
+                    break;
+                case Article.ArticleEventType.down:
+                    moveArticleDown(sender as Article);
+                    break;
+            }
+        }
+
+        private void deleteArticle(Article article)
+        {
+            article.articeEvent -= article_Action;
+            _accordion.Clear();
+            _articles.Remove(article);
+            rebuildAccordion();
+        }
+
+        private void moveArticleUp(Article article)
+        {
+            var index = _articles.IndexOf(article);
+            if (index > 0)
+            {
+                _articles.Remove(article);
+                _articles.Insert(--index, article);
+            }
+            _accordion.Clear();
+            rebuildAccordion();
+        }
+
+        private void moveArticleDown(Article article)
+        {
+            var index = _articles.IndexOf(article);
+            if (index < _articles.Count - 1)
+            {
+                _articles.Remove(article);
+                _articles.Insert(++index, article);
+            }
+            _accordion.Clear();
+            rebuildAccordion();
+        }
 
     }
 

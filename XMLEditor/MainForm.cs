@@ -15,15 +15,30 @@ namespace XMLEditor
 {
     public partial class MainForm : Form
     {
+        int previousPage;
         string currentFile;
         Boolean dirty = true;
 
         string clipboardText;
         ArticleSet articleSet;
+        String rawText = "";
 
         public MainForm()
         {
             InitializeComponent();
+            Init();
+        }
+
+        private void Init()
+        {
+            Journal.Instance.PublisherName = publisherTextBox.Text;
+            Journal.Instance.JournalTitle = nameTextBox.Text;
+            Journal.Instance.ISSN = issnTextBox.Text;
+            Journal.Instance.Issue = issueTextBox.Text;
+            Journal.Instance.Volume = volumeTextBox.Text;
+
+            PubDate.Instance.Month = monthTextBox.Text = DateTime.Now.ToString("mm");
+            PubDate.Instance.Year = yearTextBox.Text = DateTime.Now.ToString("yyyy");
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -34,12 +49,12 @@ namespace XMLEditor
 
         private void FocusEnter(object sender, EventArgs e)
         {
-
+            
         }
 
         private void AddArticle_ButtonClick(object sender, EventArgs e)
         {
-            accordion1.Add(new AccordionItem().getControl(), "1", "1", 0, false);
+            articleSet.addAricle(new Article(accordion1));
         }
 
         private void Expand_ButtonClick(object sender, EventArgs e)
@@ -85,11 +100,15 @@ namespace XMLEditor
                 var result = Regex.Split(match.Groups[1].Value, "\r\n|\r|\n");
 
                 // Getting title
+                var titleText = "";
                 while (result.Length > 0 && result[0] != "")
                 {
-                    article.ArticleTitle = article.ArticleTitle + ' ' + result[0];
+                    //article.ArticleTitle = article.ArticleTitle + ' ' + result[0];
+                    titleText = titleText + result[0];
                     RemoveAt(ref result, 0);
                 }
+
+                article.ArticleTitle = titleText;
 
                 // Remove space
                 while (result.Length > 0 && result[0] == "") RemoveAt(ref result, 0);
@@ -125,6 +144,8 @@ namespace XMLEditor
                     abstractText = abstractText + result[0];
                     RemoveAt(ref result, 0);
                 }
+
+                article.Abstract = abstractText;
 
                 var keyWords = match.Groups[2].Value;
 
@@ -213,6 +234,7 @@ namespace XMLEditor
                     break;
                 case 3:
                     generateRaw();
+                    rawText = rawXML.Text;
                     break;
             }
         }
@@ -222,14 +244,40 @@ namespace XMLEditor
             rawXML.Lines = articleSet.toString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
         }
 
-        private void expandAllClick(object sender, EventArgs e)
+        private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            
+            if (previousPage == 3)
+            {
+                using (TextReader reader = new StringReader(rawXML.Text))
+                {
+                    try
+                    {
+                        var serializer = new XmlSerializer(typeof(ArticleSet));
+                        articleSet = (ArticleSet)serializer.Deserialize(reader);
+                        articleSet.setAccordion(accordion1);
+                        articleSet.rebuildAccordion();
+                    } catch (Exception ex)
+                    {
+                        MessageBox.Show("Пиздец с XML");
+                        e.Cancel = true;
+                    }
+                }
+            };
         }
 
-        private void collapseAllClick(object sender, EventArgs e)
+        private void tabControl1_Deselected(object sender, TabControlEventArgs e)
         {
-            
+            previousPage = e.TabPageIndex;
+        }
+
+        private void rawXML_TextChanged(object sender, EventArgs e)
+        {
+            undoButton.Enabled = !rawText.Equals(rawXML.Text);
+        }
+
+        private void undoClick(object sender, EventArgs e)
+        {
+            rawXML.Text = rawText;
         }
     }
 }

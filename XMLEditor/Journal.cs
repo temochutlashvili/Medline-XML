@@ -8,14 +8,33 @@ using System.Xml.Serialization;
 namespace XMLEditor
 {
     [Serializable]
-    public class Journal
+    public sealed class Journal
     {
-        string _publisherName = "";
-        string _journalTitle = "Geogian Medical News";
-        string _iSSN = "";
-        string _volume = "";
-        string _issue = "";
-        PubDate _pubDate;
+        private static readonly Journal instance = new Journal();
+
+        static string _publisherName = "";
+        static string _journalTitle = "Geogian Medical News";
+        static string _iSSN = "";
+        static string _volume = "";
+        static string _issue = "";
+
+        static Journal()
+        {
+
+        }
+
+        private Journal()
+        {
+            pubDate = PubDate.Instance;
+        }
+
+        public static Journal Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
 
         [XmlElement]
         public string PublisherName
@@ -87,26 +106,13 @@ namespace XMLEditor
             }
         }
 
-        [XmlElement]
-        public PubDate PubDate
-        {
-            get
-            {
-                return _pubDate;
-            }
+        [XmlElement("PubDate")]
+        public PubDate pubDate;
 
-            set
-            {
-                _pubDate = value;
-            }
-        }
-
-        public Journal()
-        {
-            _pubDate = new PubDate();
-        }
-
-
+        //public Journal()
+        //{
+        //    _pubDate = new PubDate();
+        //}
 
     }
 }
