@@ -8,29 +8,58 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace XMLEditor
 {
-    public partial class HighlightedTextBox : TextBox
+    public partial class HighlightedTextBox : RichTextBox
     {
+        private Color highlightColor = Color.Yellow;
+
         public HighlightedTextBox()
         {
             InitializeComponent();
-            this.SetStyle(ControlStyles.UserPaint, true);
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        public void highlightedTextBox_VisibilityChanged(object sender, EventArgs e)
         {
-            base.OnPaint(e);
-
-            Graphics g = e.Graphics;
-            Brush b = new SolidBrush(this.ForeColor);
-            Rectangle old = this.ClientRectangle;
-            Font f = new Font(this.Font, FontStyle.Bold);
-            g.DrawString(this.Text, this.Font, b, old);
-            //Rectangle old = this.ClientRectangle;
-            //Rectangle R = new Rectangle(Multiline ? old.X + 1 : old.X - 2, old.Y + 1, old.Width, old.Height);
-            //TextRenderer.DrawText(e.Graphics, this.Text, this.Font, R, Color.Red, Color.White, TextFormatFlags.Internal);
+            this.Invalidate();
         }
+
+        public void textChanged(object sender, EventArgs e)
+        {
+            findAndHighlight();
+        }
+
+        private void findAndHighlight()
+        {
+            // Backup the users current selection point.  
+            int selectionStart = SelectionStart;
+            int selectionLength = SelectionLength;
+
+            ParseLine(Text);
+
+            //foreach (string l in Lines)
+            //{
+            //    ParseLine(l);
+            //}
+
+            // Restore the users current selection point.   
+            SelectionStart = selectionStart;
+            SelectionLength = selectionLength;
+        }
+
+        private void ParseLine(string line)
+        {
+            Regex r = new Regex("&.[^ &;]*;");
+            foreach (Match m in r.Matches(line))
+            {
+                //Console.WriteLine(m.Groups[1].Value);
+                this.SelectionStart = m.Index;
+                this.SelectionLength = m.Length;
+                this.SelectionBackColor = highlightColor;
+            }
+        }
+
     }
 }

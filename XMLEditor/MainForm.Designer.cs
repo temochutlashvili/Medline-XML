@@ -39,7 +39,6 @@
             this.volumeTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.publisherTextBox = new XMLEditor.HighlightedTextBox();
             this.nameTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -49,28 +48,29 @@
             this.monthTextBox = new System.Windows.Forms.MaskedTextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripSplitButton_AddClipboard = new System.Windows.Forms.ToolStripSplitButton();
-            this.toolStripMenuItem_AddClipboard = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem_AddClipboardRewrite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButton_Add = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripProgressBar_importClipboard = new System.Windows.Forms.ToolStripProgressBar();
-            this.accordion1 = new Opulos.Core.UI.Accordion();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.undoButton = new System.Windows.Forms.ToolStripButton();
             this.rawXML = new System.Windows.Forms.RichTextBox();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.newButton = new System.Windows.Forms.ToolStripButton();
             this.openButton = new System.Windows.Forms.ToolStripButton();
             this.saveButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.toolStripSplitButton_AddClipboard = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolStripMenuItem_AddClipboard = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_AddClipboardRewrite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButton_Add = new System.Windows.Forms.ToolStripButton();
+            this.undoButton = new System.Windows.Forms.ToolStripButton();
+            this.publisherTextBox = new XMLEditor.HighlightedTextBox();
+            this.accordion1 = new Opulos.Core.UI.Accordion();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -205,14 +205,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Издатель";
             // 
-            // publisherTextBox
-            // 
-            this.publisherTextBox.Location = new System.Drawing.Point(92, 3);
-            this.publisherTextBox.Name = "publisherTextBox";
-            this.publisherTextBox.Size = new System.Drawing.Size(291, 20);
-            this.publisherTextBox.TabIndex = 1;
-            this.publisherTextBox.Text = "Georgian Medical News";
-            // 
             // nameTextBox
             // 
             this.nameTextBox.Location = new System.Drawing.Point(92, 43);
@@ -299,6 +291,152 @@
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripProgressBar_importClipboard
+            // 
+            this.toolStripProgressBar_importClipboard.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripProgressBar_importClipboard.Name = "toolStripProgressBar_importClipboard";
+            this.toolStripProgressBar_importClipboard.Size = new System.Drawing.Size(300, 22);
+            this.toolStripProgressBar_importClipboard.Visible = false;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.dataGridView1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1382, 463);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Список";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(1382, 463);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.toolStrip3);
+            this.tabPage4.Controls.Add(this.rawXML);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(1382, 463);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Raw";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // toolStrip3
+            // 
+            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.undoButton});
+            this.toolStrip3.Location = new System.Drawing.Point(3, 3);
+            this.toolStrip3.Name = "toolStrip3";
+            this.toolStrip3.Size = new System.Drawing.Size(1376, 25);
+            this.toolStrip3.TabIndex = 1;
+            this.toolStrip3.Text = "toolStrip3";
+            // 
+            // rawXML
+            // 
+            this.rawXML.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rawXML.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rawXML.Location = new System.Drawing.Point(3, 31);
+            this.rawXML.Name = "rawXML";
+            this.rawXML.Size = new System.Drawing.Size(1376, 429);
+            this.rawXML.TabIndex = 0;
+            this.rawXML.Text = "";
+            this.rawXML.TextChanged += new System.EventHandler(this.rawXML_TextChanged);
+            // 
+            // backgroundWorker
+            // 
+            this.backgroundWorker.WorkerReportsProgress = true;
+            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWork);
+            this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
+            this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolStrip2.AutoSize = false;
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newButton,
+            this.openButton,
+            this.saveButton,
+            this.toolStripButton1});
+            this.toolStrip2.Location = new System.Drawing.Point(4, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(1382, 25);
+            this.toolStrip2.TabIndex = 5;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, 520);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1389, 22);
+            this.statusStrip1.TabIndex = 6;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "Sgml file|*.sgml";
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog1";
+            // 
+            // newButton
+            // 
+            this.newButton.Image = ((System.Drawing.Image)(resources.GetObject("newButton.Image")));
+            this.newButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newButton.Name = "newButton";
+            this.newButton.Size = new System.Drawing.Size(65, 22);
+            this.newButton.Text = "Новый";
+            // 
+            // openButton
+            // 
+            this.openButton.Image = ((System.Drawing.Image)(resources.GetObject("openButton.Image")));
+            this.openButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openButton.Name = "openButton";
+            this.openButton.Size = new System.Drawing.Size(74, 22);
+            this.openButton.Text = "Открыть";
+            this.openButton.Click += new System.EventHandler(this.openFileClick);
+            // 
+            // saveButton
+            // 
+            this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
+            this.saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(86, 22);
+            this.saveButton.Text = "Сохранить";
+            this.saveButton.Click += new System.EventHandler(this.saveButtonClick);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = global::XMLEditor.Properties.Resources.Symbols_Attribute_32xLG;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.characterMapClick);
+            // 
             // toolStripSplitButton_AddClipboard
             // 
             this.toolStripSplitButton_AddClipboard.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -337,17 +475,24 @@
             this.toolStripButton_Add.ToolTipText = "Добавить";
             this.toolStripButton_Add.Click += new System.EventHandler(this.AddArticle_ButtonClick);
             // 
-            // toolStripSeparator1
+            // undoButton
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.undoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.undoButton.Enabled = false;
+            this.undoButton.Image = ((System.Drawing.Image)(resources.GetObject("undoButton.Image")));
+            this.undoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.undoButton.Name = "undoButton";
+            this.undoButton.Size = new System.Drawing.Size(86, 22);
+            this.undoButton.Text = "Восстановить";
+            this.undoButton.Click += new System.EventHandler(this.undoClick);
             // 
-            // toolStripProgressBar_importClipboard
+            // publisherTextBox
             // 
-            this.toolStripProgressBar_importClipboard.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripProgressBar_importClipboard.Name = "toolStripProgressBar_importClipboard";
-            this.toolStripProgressBar_importClipboard.Size = new System.Drawing.Size(300, 22);
-            this.toolStripProgressBar_importClipboard.Visible = false;
+            this.publisherTextBox.Location = new System.Drawing.Point(92, 3);
+            this.publisherTextBox.Name = "publisherTextBox";
+            this.publisherTextBox.Size = new System.Drawing.Size(291, 20);
+            this.publisherTextBox.TabIndex = 1;
+            this.publisherTextBox.Text = "Georgian Medical News";
             // 
             // accordion1
             // 
@@ -413,150 +558,6 @@
             this.accordion1.TabIndex = 0;
             this.accordion1.UpArrow = null;
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.dataGridView1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1382, 463);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Список";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1382, 463);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.toolStrip3);
-            this.tabPage4.Controls.Add(this.rawXML);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1382, 463);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Raw";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // toolStrip3
-            // 
-            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.undoButton});
-            this.toolStrip3.Location = new System.Drawing.Point(3, 3);
-            this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(1376, 25);
-            this.toolStrip3.TabIndex = 1;
-            this.toolStrip3.Text = "toolStrip3";
-            // 
-            // undoButton
-            // 
-            this.undoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.undoButton.Enabled = false;
-            this.undoButton.Image = ((System.Drawing.Image)(resources.GetObject("undoButton.Image")));
-            this.undoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.undoButton.Name = "undoButton";
-            this.undoButton.Size = new System.Drawing.Size(86, 22);
-            this.undoButton.Text = "Восстановить";
-            this.undoButton.Click += new System.EventHandler(this.undoClick);
-            // 
-            // rawXML
-            // 
-            this.rawXML.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.rawXML.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rawXML.Location = new System.Drawing.Point(3, 31);
-            this.rawXML.Name = "rawXML";
-            this.rawXML.Size = new System.Drawing.Size(1376, 429);
-            this.rawXML.TabIndex = 0;
-            this.rawXML.Text = "";
-            this.rawXML.TextChanged += new System.EventHandler(this.rawXML_TextChanged);
-            // 
-            // backgroundWorker
-            // 
-            this.backgroundWorker.WorkerReportsProgress = true;
-            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWork);
-            this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
-            this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
-            // 
-            // toolStrip2
-            // 
-            this.toolStrip2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.toolStrip2.AutoSize = false;
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newButton,
-            this.openButton,
-            this.saveButton,
-            this.toolStripButton1});
-            this.toolStrip2.Location = new System.Drawing.Point(4, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(1382, 25);
-            this.toolStrip2.TabIndex = 5;
-            this.toolStrip2.Text = "toolStrip2";
-            // 
-            // newButton
-            // 
-            this.newButton.Image = ((System.Drawing.Image)(resources.GetObject("newButton.Image")));
-            this.newButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.newButton.Name = "newButton";
-            this.newButton.Size = new System.Drawing.Size(65, 22);
-            this.newButton.Text = "Новый";
-            // 
-            // openButton
-            // 
-            this.openButton.Image = ((System.Drawing.Image)(resources.GetObject("openButton.Image")));
-            this.openButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(74, 22);
-            this.openButton.Text = "Открыть";
-            this.openButton.Click += new System.EventHandler(this.openFileClick);
-            // 
-            // saveButton
-            // 
-            this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
-            this.saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(86, 22);
-            this.saveButton.Text = "Сохранить";
-            this.saveButton.Click += new System.EventHandler(this.saveButtonClick);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 520);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1389, 22);
-            this.statusStrip1.TabIndex = 6;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // saveFileDialog
-            // 
-            this.saveFileDialog.Filter = "Sgml file|*.sgml";
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog1";
-            // 
             // MainForm
             // 
             this.ClientSize = new System.Drawing.Size(1389, 542);
@@ -564,6 +565,7 @@
             this.Controls.Add(this.toolStrip2);
             this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Enter += new System.EventHandler(this.FocusEnter);
             this.tabControl1.ResumeLayout(false);

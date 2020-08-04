@@ -37,12 +37,12 @@
             this.languageComboBox = new System.Windows.Forms.ComboBox();
             this.authorsPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.abstractTextBox = new System.Windows.Forms.RichTextBox();
+            this.abstractTextBox = new HighlightedTextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.deleteButton = new System.Windows.Forms.Button();
             this.upButton = new System.Windows.Forms.Button();
             this.downButton = new System.Windows.Forms.Button();
-            this.titleTextBox = new System.Windows.Forms.RichTextBox();
+            this.titleTextBox = new HighlightedTextBox();
             this.previewButton = new System.Windows.Forms.Button();
             this.headerPanel.SuspendLayout();
             this.panel1.SuspendLayout();

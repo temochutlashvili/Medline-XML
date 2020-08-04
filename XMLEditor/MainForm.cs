@@ -23,6 +23,8 @@ namespace XMLEditor
         ArticleSet articleSet;
         String rawText = "";
 
+        CharacterMap charMap = new CharacterMap();
+
         public MainForm()
         {
             InitializeComponent();
@@ -278,6 +280,18 @@ namespace XMLEditor
         private void undoClick(object sender, EventArgs e)
         {
             rawXML.Text = rawText;
+        }
+
+        private void characterMapClick(object sender, EventArgs e)
+        {
+            charMap.Owner = this;
+            charMap.Show();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            charMap.Dispose();
+            this.Dispose();
         }
     }
 }

@@ -29,7 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.VisibleChanged += new System.EventHandler(this.highlightedTextBox_VisibilityChanged);
+            this.TextChanged += new System.EventHandler(this.textChanged);
         }
 
         #endregion

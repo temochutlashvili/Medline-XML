@@ -16,9 +16,9 @@ namespace XMLEditor
 
         Panel _authorsPanel;
         Panel _panel = new Panel { };
-        RichTextBox _firstname = new RichTextBox { Multiline = false };
-        RichTextBox _lastname = new RichTextBox { Multiline = false };
-        RichTextBox _affiliation = new RichTextBox { Multiline = false };
+        HighlightedTextBox _firstname = new HighlightedTextBox { Multiline = false };
+        HighlightedTextBox _lastname = new HighlightedTextBox { Multiline = false };
+        HighlightedTextBox _affiliation = new HighlightedTextBox { Multiline = false };
 
         Button _up = new Button { };
         Button _down = new Button { };
@@ -67,10 +67,6 @@ namespace XMLEditor
             _delete.Image = XMLEditor.Properties.Resources._1385_Disable_16x16_72;
             _delete.BackgroundImageLayout = ImageLayout.Stretch;
             _delete.Click += new EventHandler(deleteButtonClick);
-
-            _firstname.VisibleChanged += new EventHandler(rtf_VisibilityChange);
-            _lastname.VisibleChanged += new EventHandler(rtf_VisibilityChange);
-            _affiliation.VisibleChanged += new EventHandler(rtf_VisibilityChange);
 
             _panel.Controls.Add(_firstname);
             _panel.Controls.Add(_lastname);
@@ -236,10 +232,10 @@ namespace XMLEditor
 
         }
 
-        private void rtf_VisibilityChange(object sender, EventArgs e)
-        {
-            ((RichTextBox)sender).Invalidate();
-        }
+        //private void rtf_VisibilityChange(object sender, EventArgs e)
+        //{
+        //    ((RichTextBox)sender).Invalidate();
+        //}
 
     }
 }
