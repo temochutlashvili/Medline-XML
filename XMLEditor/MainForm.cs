@@ -15,6 +15,7 @@ namespace XMLEditor
 {
     public partial class MainForm : Form
     {
+        const int RawTabPage = 2;
         int previousPage;
         string currentFile;
         Boolean dirty = true;
@@ -39,8 +40,10 @@ namespace XMLEditor
             Journal.Instance.Issue = issueTextBox.Text;
             Journal.Instance.Volume = volumeTextBox.Text;
 
-            PubDate.Instance.Month = monthTextBox.Text = DateTime.Now.ToString("mm");
+            PubDate.Instance.Month = monthTextBox.Text = DateTime.Now.ToString("MM");
             PubDate.Instance.Year = yearTextBox.Text = DateTime.Now.ToString("yyyy");
+
+            charMap.charMapPressedEvent += charMapPressed;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -66,6 +69,10 @@ namespace XMLEditor
 
         private void ImportClipboard_ButtonClick(object sender, EventArgs e)
         {
+            toolStripButton_Add.Enabled = false;
+            toolStripSplitButton_AddClipboard.Enabled = false;
+            toolStrip2.Enabled = false;
+            stopJobButton.Visible = true;
             toolStripProgressBar_importClipboard.Visible = true;
             toolStripProgressBar_importClipboard.Minimum = 0;
             toolStripProgressBar_importClipboard.Value = 0;
@@ -76,6 +83,16 @@ namespace XMLEditor
                 toolStripProgressBar_importClipboard.Maximum = clipboardText.Length;
                 backgroundWorker.RunWorkerAsync(argument: clipboardText);
             }
+        }
+
+        private void importOverwrite_ButtonClick(object sender, EventArgs e)
+        {
+            if (!askForSave()) return;
+            articleSet.Clear();
+            rawText = "";
+            accordion1.Clear();
+
+            ImportClipboard_ButtonClick(sender, e);
         }
 
         public static void RemoveAt<T>(ref T[] arr, int index)
@@ -110,7 +127,9 @@ namespace XMLEditor
                     RemoveAt(ref result, 0);
                 }
 
-                article.ArticleTitle = titleText;
+                RawText titleInstance = new RawText();
+                titleInstance.text = titleText;
+                article.titleInstance = titleInstance;
 
                 // Remove space
                 while (result.Length > 0 && result[0] == "") RemoveAt(ref result, 0);
@@ -147,7 +166,10 @@ namespace XMLEditor
                     RemoveAt(ref result, 0);
                 }
 
-                article.Abstract = abstractText;
+                //article.Abstract = abstractText;
+                RawText abstractInstance = new RawText();
+                abstractInstance.text = abstractText;
+                article.abstractInstance = abstractInstance;
 
                 var keyWords = match.Groups[2].Value;
 
@@ -172,6 +194,23 @@ namespace XMLEditor
         {
             rawXML.Lines = articleSet.toString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             toolStripProgressBar_importClipboard.Visible = false;
+            stopJobButton.Visible = false;
+            toolStripButton_Add.Enabled = true;
+            toolStripSplitButton_AddClipboard.Enabled = true;
+            toolStrip2.Enabled = true;
+        }
+
+        private void stopButtonClick(object sender, EventArgs e)
+        {
+            backgroundWorker.CancelAsync();
+        }
+
+        private void newButton_Click(object sender, EventArgs e)
+        {
+            if (!askForSave()) return;
+            articleSet.Clear();
+            rawText = "";
+            accordion1.Clear();
         }
 
         private void saveButtonClick(object sender, EventArgs e)
@@ -181,24 +220,13 @@ namespace XMLEditor
 
         private void openFileClick(object sender, EventArgs e)
         {
-            if (dirty)
-            {
-                DialogResult dr = MessageBox.Show("В файл вносились изменения, сохранить?", "Внимание", MessageBoxButtons.YesNoCancel);
-                switch (dr)
-                {
-                    case DialogResult.Cancel:
-                        return;
-                    case DialogResult.Yes:
-                        saveToFile();
-                        break;
-                }
-            }
+            if (!askForSave()) return;
 
             if(openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var str = System.IO.File.ReadAllText(openFileDialog.FileName);
                 var serializer = new XmlSerializer(typeof(ArticleSet));
-                using (TextReader reader = new StringReader(str))
+                using (TextReader reader = new StringReader(replace_ampersands(str)))
                 {
                     try {
                         articleSet = (ArticleSet)serializer.Deserialize(reader);
@@ -215,6 +243,8 @@ namespace XMLEditor
 
         private void saveToFile()
         {
+            if (!generateArticleSet()) return;
+
             if (currentFile == null)
             {
                 if (saveFileDialog.ShowDialog() == DialogResult.Cancel) return;
@@ -232,9 +262,7 @@ namespace XMLEditor
                     break;
                 case 1:
                     break;
-                case 2:
-                    break;
-                case 3:
+                case RawTabPage:
                     generateRaw();
                     rawText = rawXML.Text;
                     break;
@@ -246,24 +274,31 @@ namespace XMLEditor
             rawXML.Lines = articleSet.toString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
         }
 
+        private Boolean generateArticleSet()
+        {
+            using (TextReader reader = new StringReader(replace_ampersands(rawXML.Text)))
+            {
+                try
+                {
+                    var serializer = new XmlSerializer(typeof(ArticleSet));
+                    articleSet = (ArticleSet)serializer.Deserialize(reader);
+                    articleSet.setAccordion(accordion1);
+                    articleSet.rebuildAccordion();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Пиздец с XML");
+                    return false;
+                }
+            }
+        }
+
         private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if (previousPage == 3)
+            if (previousPage == RawTabPage)
             {
-                using (TextReader reader = new StringReader(rawXML.Text))
-                {
-                    try
-                    {
-                        var serializer = new XmlSerializer(typeof(ArticleSet));
-                        articleSet = (ArticleSet)serializer.Deserialize(reader);
-                        articleSet.setAccordion(accordion1);
-                        articleSet.rebuildAccordion();
-                    } catch (Exception ex)
-                    {
-                        MessageBox.Show("Пиздец с XML");
-                        e.Cancel = true;
-                    }
-                }
+                e.Cancel = !generateArticleSet();
             };
         }
 
@@ -293,5 +328,64 @@ namespace XMLEditor
             charMap.Dispose();
             this.Dispose();
         }
+
+        private void charMapPressed(object sender, CharMapEventArgs e)
+        {
+            var control = FindFocusedControl(this);
+            if(control is HighlightedTextBox)
+            {
+                var h = (HighlightedTextBox)control;
+                h.SelectionStart += h.SelectionLength;
+                h.SelectionLength = 0;
+                h.SelectedText = '&' + ((int)e.pressedChar).ToString() + ';';
+            }
+        }
+
+        public static Control FindFocusedControl(Control control)
+        {
+            var container = control as IContainerControl;
+            while (container != null)
+            {
+                control = container.ActiveControl;
+                container = control as IContainerControl;
+            }
+            return control;
+        }
+
+        private string replace_ampersands(string xml)
+        {
+            return xml.Replace("&", "&amp;");
+        }
+
+        private void paramsChanged(object sender, EventArgs e)
+        {
+            Journal journal = Journal.Instance;
+            journal.pubDate.Month = monthTextBox.Text;
+            journal.pubDate.Year = yearTextBox.Text;
+            journal.PublisherName = publisherTextBox.Text;
+            journal.JournalTitle = nameTextBox.Text;
+            journal.ISSN = issnTextBox.Text;
+            journal.Issue = issueTextBox.Text;
+            journal.Volume = volumeTextBox.Text;
+        }
+
+        private Boolean askForSave()
+        {
+            if (dirty)
+            {
+                DialogResult dr = MessageBox.Show("В файл вносились изменения, сохранить?", "Внимание", MessageBoxButtons.YesNoCancel);
+                switch (dr)
+                {
+                    case DialogResult.Cancel:
+                        return false;
+                    case DialogResult.Yes:
+                        saveToFile();
+                        return true;
+                }
+            }
+
+            return true;
+        }
+
     }
 }

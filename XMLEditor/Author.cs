@@ -44,10 +44,18 @@ namespace XMLEditor
             
             _affiliation.Left = 180;
             _affiliation.Width = 500;
-            _affiliation.Text = findAffiliation(lastname, affiliation);
 
-            _firstname.Text = removeNumberFromName(firstname);
-            _lastname.Text = removeNumberFromName(lastname);
+            _affiliationInstance = new RawText();
+            _affiliation.Text = _affiliationInstance.text = findAffiliation(lastname, affiliation);
+
+            _firstNameInstance = new RawText();
+            _firstname.Text = _firstNameInstance.text = removeNumberFromName(firstname);
+
+            _lastNameInstance = new RawText();
+            _lastname.Text = _lastNameInstance.text = removeNumberFromName(lastname);
+
+            //_firstname.Text = removeNumberFromName(firstname);
+            //_lastname.Text = removeNumberFromName(lastname);
 
             _up.Left = 700;
             _up.Width = 20;
@@ -92,9 +100,9 @@ namespace XMLEditor
 
             _affiliation.Left = 180;
             _affiliation.Width = 500;
-            _affiliation.Text = findAffiliation(this.Lastname, this.Affiliation);
-            _firstname.Text = removeNumberFromName(this.Firstname);
-            _lastname.Text = removeNumberFromName(this.Lastname);
+            _affiliation.Text = findAffiliation(this.LastNameTextBox, this._affiliationInstance.text);
+            _firstname.Text = removeNumberFromName(this._firstNameInstance.text);
+            _lastname.Text = removeNumberFromName(this.LastNameTextBox);
 
             _up.Left = 700;
             _up.Width = 24;
@@ -124,33 +132,115 @@ namespace XMLEditor
             _panel.Controls.Add(_delete);
         }
 
+        public void reHighlight()
+        {
+            _firstname.textChanged(this, EventArgs.Empty);
+            _lastname.textChanged(this, EventArgs.Empty);
+            _affiliation.textChanged(this, EventArgs.Empty);
+        }
+
         public Panel getPanel()
         {
             return _panel;
         }
 
-        [XmlElement]
-        public string Firstname
-        {
-            get{ return _firstname.Text; }
+        [XmlIgnore]
+        private RawText _firstNameInstance;
 
-            set{ _firstname.Text = value; }
+        [XmlElement("FirstName", Order = 1)]
+        public RawText firstNameInstance
+        {
+            get
+            {
+                _firstNameInstance.text = FirstNameTextBox;
+                return _firstNameInstance;
+            }
+
+            set
+            {
+                _firstNameInstance = value;
+                FirstNameTextBox = value.text;
+            }
         }
 
-        [XmlElement]
-        public string Lastname
+        [XmlIgnore]
+        public string FirstNameTextBox
         {
-            get{ return _lastname.Text; }
+            get
+            {
+                return _firstname.Text;
+            }
 
-            set{ _lastname.Text = value; }
+            set
+            {
+                _firstname.Text = value;
+            }
         }
 
-        [XmlElement]
-        public string Affiliation
-        {
-            get{ return _affiliation.Text; }
+        [XmlIgnore]
+        private RawText _lastNameInstance;
 
-            set{ _affiliation.Text = value; }
+        [XmlElement("LastName", Order = 2)]
+        public RawText lastNameInstance
+        {
+            get
+            {
+                _lastNameInstance.text = LastNameTextBox;
+                return _lastNameInstance;
+            }
+
+            set
+            {
+                _lastNameInstance = value;
+                LastNameTextBox = value.text;
+            }
+        }
+
+        [XmlIgnore]
+        public string LastNameTextBox
+        {
+            get
+            {
+                return _lastname.Text;
+            }
+
+            set
+            {
+                _lastname.Text = value;
+            }
+        }
+
+        [XmlIgnore]
+        private RawText _affiliationInstance;
+
+        [XmlElement("Affiliation", Order = 3)]
+        public RawText affiliationInstance
+        {
+            get
+            {
+                _affiliationInstance.text = AffiliationTextBox;
+                return _affiliationInstance;
+            }
+
+            set
+            {
+                _affiliationInstance = value;
+                AffiliationTextBox = value.text;
+            }
+        }
+
+        [XmlIgnore]
+        public string AffiliationTextBox
+        {
+            get
+            {
+                return _affiliation.Text;
+            }
+
+            set
+            {
+                _affiliation.Text = value;
+            }
         }
 
         private String removeNumberFromName(String name)
@@ -160,6 +250,7 @@ namespace XMLEditor
 
         private String findAffiliation(String lastname, String affiliation)
         {
+            lastname = Regex.Replace(lastname, "&.[^ &;]*;", "");
             StringBuilder sb = new StringBuilder();
             Dictionary<string, string> affies = parseAffiliation(affiliation);
             var affiliationReg = new Regex(@"([^a-zA-Z]+)(.*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -172,7 +263,7 @@ namespace XMLEditor
 
                 foreach(String numb in numbers.Split(','))
                 {
-                    sb.Append(affies[numb]);
+                    if(affies.ContainsKey(numb)) sb.Append(affies[numb]);
                 }
             } else
             {

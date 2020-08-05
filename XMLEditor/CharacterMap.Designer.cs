@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CharacterMap));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.favoritesButton = new System.Windows.Forms.ToolStripButton();
@@ -40,6 +41,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.basicLatinPage = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
@@ -104,6 +106,7 @@
             this.latinExtendedButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.latinExtendedButton.Image = ((System.Drawing.Image)(resources.GetObject("latinExtendedButton.Image")));
             this.latinExtendedButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.latinExtendedButton.MergeIndex = 1;
             this.latinExtendedButton.Name = "latinExtendedButton";
             this.latinExtendedButton.Size = new System.Drawing.Size(29, 29);
             this.latinExtendedButton.Text = "Ā";
@@ -114,6 +117,7 @@
             this.greekButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.greekButton.Image = ((System.Drawing.Image)(resources.GetObject("greekButton.Image")));
             this.greekButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.greekButton.MergeIndex = 1;
             this.greekButton.Name = "greekButton";
             this.greekButton.Size = new System.Drawing.Size(27, 29);
             this.greekButton.Text = "Σ";
@@ -124,6 +128,7 @@
             this.superscriptButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.superscriptButton.Image = ((System.Drawing.Image)(resources.GetObject("superscriptButton.Image")));
             this.superscriptButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.superscriptButton.MergeIndex = 1;
             this.superscriptButton.Name = "superscriptButton";
             this.superscriptButton.Size = new System.Drawing.Size(23, 29);
             this.superscriptButton.Text = "¹";
@@ -134,6 +139,7 @@
             this.mathButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.mathButton.Image = ((System.Drawing.Image)(resources.GetObject("mathButton.Image")));
             this.mathButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mathButton.MergeIndex = 1;
             this.mathButton.Name = "mathButton";
             this.mathButton.Size = new System.Drawing.Size(29, 29);
             this.mathButton.Text = "±";
@@ -167,7 +173,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 5);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(532, 320);
+            this.tabPage2.Size = new System.Drawing.Size(666, 410);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -185,6 +191,7 @@
             this.Name = "CharacterMap";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CharacterMap";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CharacterMap_FormClosing);
             this.toolStrip1.ResumeLayout(false);
@@ -208,5 +215,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage basicLatinPage;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

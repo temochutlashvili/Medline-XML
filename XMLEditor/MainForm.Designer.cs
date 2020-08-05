@@ -48,27 +48,26 @@
             this.monthTextBox = new System.Windows.Forms.MaskedTextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripProgressBar_importClipboard = new System.Windows.Forms.ToolStripProgressBar();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.rawXML = new System.Windows.Forms.RichTextBox();
-            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.newButton = new System.Windows.Forms.ToolStripButton();
-            this.openButton = new System.Windows.Forms.ToolStripButton();
-            this.saveButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSplitButton_AddClipboard = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripMenuItem_AddClipboard = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_AddClipboardRewrite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton_Add = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.stopJobButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripProgressBar_importClipboard = new System.Windows.Forms.ToolStripProgressBar();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.undoButton = new System.Windows.Forms.ToolStripButton();
+            this.rawXML = new System.Windows.Forms.RichTextBox();
+            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.newButton = new System.Windows.Forms.ToolStripButton();
+            this.openButton = new System.Windows.Forms.ToolStripButton();
+            this.saveButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.publisherTextBox = new XMLEditor.HighlightedTextBox();
             this.accordion1 = new Opulos.Core.UI.Accordion();
             this.tabControl1.SuspendLayout();
@@ -77,8 +76,6 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.toolStrip3.SuspendLayout();
             this.toolStrip2.SuspendLayout();
@@ -91,12 +88,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(0, 28);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1390, 489);
+            this.tabControl1.Size = new System.Drawing.Size(1390, 537);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.tabControl1.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Selecting);
@@ -109,7 +105,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1382, 463);
+            this.tabPage1.Size = new System.Drawing.Size(1382, 511);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Общие параметры";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -163,6 +159,7 @@
             this.yearTextBox.Name = "yearTextBox";
             this.yearTextBox.Size = new System.Drawing.Size(47, 20);
             this.yearTextBox.TabIndex = 12;
+            this.yearTextBox.TextChanged += new System.EventHandler(this.paramsChanged);
             // 
             // label6
             // 
@@ -179,6 +176,7 @@
             this.issueTextBox.Name = "issueTextBox";
             this.issueTextBox.Size = new System.Drawing.Size(291, 20);
             this.issueTextBox.TabIndex = 9;
+            this.issueTextBox.TextChanged += new System.EventHandler(this.paramsChanged);
             // 
             // volumeTextBox
             // 
@@ -186,6 +184,7 @@
             this.volumeTextBox.Name = "volumeTextBox";
             this.volumeTextBox.Size = new System.Drawing.Size(291, 20);
             this.volumeTextBox.TabIndex = 7;
+            this.volumeTextBox.TextChanged += new System.EventHandler(this.paramsChanged);
             // 
             // label2
             // 
@@ -212,6 +211,7 @@
             this.nameTextBox.Size = new System.Drawing.Size(291, 20);
             this.nameTextBox.TabIndex = 3;
             this.nameTextBox.Text = "Geogian Medical News";
+            this.nameTextBox.TextChanged += new System.EventHandler(this.paramsChanged);
             // 
             // label3
             // 
@@ -248,6 +248,7 @@
             this.issnTextBox.Size = new System.Drawing.Size(291, 20);
             this.issnTextBox.TabIndex = 5;
             this.issnTextBox.Text = "Geogian Medical News";
+            this.issnTextBox.TextChanged += new System.EventHandler(this.paramsChanged);
             // 
             // label7
             // 
@@ -265,6 +266,7 @@
             this.monthTextBox.Name = "monthTextBox";
             this.monthTextBox.Size = new System.Drawing.Size(34, 20);
             this.monthTextBox.TabIndex = 11;
+            this.monthTextBox.TextChanged += new System.EventHandler(this.paramsChanged);
             // 
             // tabPage2
             // 
@@ -273,7 +275,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1382, 463);
+            this.tabPage2.Size = new System.Drawing.Size(1382, 511);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Статьи";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -284,158 +286,13 @@
             this.toolStripSplitButton_AddClipboard,
             this.toolStripButton_Add,
             this.toolStripSeparator1,
+            this.stopJobButton,
             this.toolStripProgressBar_importClipboard});
             this.toolStrip1.Location = new System.Drawing.Point(3, 3);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1376, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripProgressBar_importClipboard
-            // 
-            this.toolStripProgressBar_importClipboard.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripProgressBar_importClipboard.Name = "toolStripProgressBar_importClipboard";
-            this.toolStripProgressBar_importClipboard.Size = new System.Drawing.Size(300, 22);
-            this.toolStripProgressBar_importClipboard.Visible = false;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.dataGridView1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1382, 463);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Список";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1382, 463);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.toolStrip3);
-            this.tabPage4.Controls.Add(this.rawXML);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1382, 463);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Raw";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // toolStrip3
-            // 
-            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.undoButton});
-            this.toolStrip3.Location = new System.Drawing.Point(3, 3);
-            this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(1376, 25);
-            this.toolStrip3.TabIndex = 1;
-            this.toolStrip3.Text = "toolStrip3";
-            // 
-            // rawXML
-            // 
-            this.rawXML.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.rawXML.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rawXML.Location = new System.Drawing.Point(3, 31);
-            this.rawXML.Name = "rawXML";
-            this.rawXML.Size = new System.Drawing.Size(1376, 429);
-            this.rawXML.TabIndex = 0;
-            this.rawXML.Text = "";
-            this.rawXML.TextChanged += new System.EventHandler(this.rawXML_TextChanged);
-            // 
-            // backgroundWorker
-            // 
-            this.backgroundWorker.WorkerReportsProgress = true;
-            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWork);
-            this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
-            this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
-            // 
-            // toolStrip2
-            // 
-            this.toolStrip2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.toolStrip2.AutoSize = false;
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newButton,
-            this.openButton,
-            this.saveButton,
-            this.toolStripButton1});
-            this.toolStrip2.Location = new System.Drawing.Point(4, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(1382, 25);
-            this.toolStrip2.TabIndex = 5;
-            this.toolStrip2.Text = "toolStrip2";
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 520);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1389, 22);
-            this.statusStrip1.TabIndex = 6;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // saveFileDialog
-            // 
-            this.saveFileDialog.Filter = "Sgml file|*.sgml";
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog1";
-            // 
-            // newButton
-            // 
-            this.newButton.Image = ((System.Drawing.Image)(resources.GetObject("newButton.Image")));
-            this.newButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.newButton.Name = "newButton";
-            this.newButton.Size = new System.Drawing.Size(65, 22);
-            this.newButton.Text = "Новый";
-            // 
-            // openButton
-            // 
-            this.openButton.Image = ((System.Drawing.Image)(resources.GetObject("openButton.Image")));
-            this.openButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(74, 22);
-            this.openButton.Text = "Открыть";
-            this.openButton.Click += new System.EventHandler(this.openFileClick);
-            // 
-            // saveButton
-            // 
-            this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
-            this.saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(86, 22);
-            this.saveButton.Text = "Сохранить";
-            this.saveButton.Click += new System.EventHandler(this.saveButtonClick);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::XMLEditor.Properties.Resources.Symbols_Attribute_32xLG;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.characterMapClick);
             // 
             // toolStripSplitButton_AddClipboard
             // 
@@ -463,6 +320,7 @@
             this.toolStripMenuItem_AddClipboardRewrite.Size = new System.Drawing.Size(270, 22);
             this.toolStripMenuItem_AddClipboardRewrite.Text = "Добавить из буфера с перезаписью";
             this.toolStripMenuItem_AddClipboardRewrite.ToolTipText = "Добавить из буфера с перезаписью";
+            this.toolStripMenuItem_AddClipboardRewrite.Click += new System.EventHandler(this.importOverwrite_ButtonClick);
             // 
             // toolStripButton_Add
             // 
@@ -475,6 +333,52 @@
             this.toolStripButton_Add.ToolTipText = "Добавить";
             this.toolStripButton_Add.Click += new System.EventHandler(this.AddArticle_ButtonClick);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // stopJobButton
+            // 
+            this.stopJobButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.stopJobButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.stopJobButton.Image = global::XMLEditor.Properties.Resources.BreakpointEnabled_6584_16x;
+            this.stopJobButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.stopJobButton.Name = "stopJobButton";
+            this.stopJobButton.Size = new System.Drawing.Size(23, 22);
+            this.stopJobButton.Text = "Stop";
+            this.stopJobButton.Visible = false;
+            this.stopJobButton.Click += new System.EventHandler(this.stopButtonClick);
+            // 
+            // toolStripProgressBar_importClipboard
+            // 
+            this.toolStripProgressBar_importClipboard.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripProgressBar_importClipboard.Name = "toolStripProgressBar_importClipboard";
+            this.toolStripProgressBar_importClipboard.Size = new System.Drawing.Size(300, 22);
+            this.toolStripProgressBar_importClipboard.Visible = false;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.toolStrip3);
+            this.tabPage4.Controls.Add(this.rawXML);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(1382, 511);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Raw";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // toolStrip3
+            // 
+            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.undoButton});
+            this.toolStrip3.Location = new System.Drawing.Point(3, 3);
+            this.toolStrip3.Name = "toolStrip3";
+            this.toolStrip3.Size = new System.Drawing.Size(1376, 25);
+            this.toolStrip3.TabIndex = 1;
+            this.toolStrip3.Text = "toolStrip3";
+            // 
             // undoButton
             // 
             this.undoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -486,6 +390,98 @@
             this.undoButton.Text = "Восстановить";
             this.undoButton.Click += new System.EventHandler(this.undoClick);
             // 
+            // rawXML
+            // 
+            this.rawXML.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rawXML.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rawXML.Location = new System.Drawing.Point(3, 31);
+            this.rawXML.Name = "rawXML";
+            this.rawXML.Size = new System.Drawing.Size(1376, 477);
+            this.rawXML.TabIndex = 0;
+            this.rawXML.Text = "";
+            this.rawXML.TextChanged += new System.EventHandler(this.rawXML_TextChanged);
+            // 
+            // backgroundWorker
+            // 
+            this.backgroundWorker.WorkerReportsProgress = true;
+            this.backgroundWorker.WorkerSupportsCancellation = true;
+            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWork);
+            this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
+            this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolStrip2.AutoSize = false;
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newButton,
+            this.openButton,
+            this.saveButton,
+            this.toolStripButton1});
+            this.toolStrip2.Location = new System.Drawing.Point(4, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(1382, 25);
+            this.toolStrip2.TabIndex = 5;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // newButton
+            // 
+            this.newButton.Image = global::XMLEditor.Properties.Resources.action_create_16xLG;
+            this.newButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newButton.Name = "newButton";
+            this.newButton.Size = new System.Drawing.Size(65, 22);
+            this.newButton.Text = "Новый";
+            this.newButton.Click += new System.EventHandler(this.newButton_Click);
+            // 
+            // openButton
+            // 
+            this.openButton.Image = global::XMLEditor.Properties.Resources.folder_Open_16xLG;
+            this.openButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openButton.Name = "openButton";
+            this.openButton.Size = new System.Drawing.Size(74, 22);
+            this.openButton.Text = "Открыть";
+            this.openButton.Click += new System.EventHandler(this.openFileClick);
+            // 
+            // saveButton
+            // 
+            this.saveButton.Image = global::XMLEditor.Properties.Resources.save_16xLG;
+            this.saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(86, 22);
+            this.saveButton.Text = "Сохранить";
+            this.saveButton.Click += new System.EventHandler(this.saveButtonClick);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = global::XMLEditor.Properties.Resources.Symbols_Attribute_32xLG;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.characterMapClick);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, 568);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1389, 22);
+            this.statusStrip1.TabIndex = 6;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "Sgml file|*.sgml";
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog1";
+            // 
             // publisherTextBox
             // 
             this.publisherTextBox.Location = new System.Drawing.Point(92, 3);
@@ -493,6 +489,7 @@
             this.publisherTextBox.Size = new System.Drawing.Size(291, 20);
             this.publisherTextBox.TabIndex = 1;
             this.publisherTextBox.Text = "Georgian Medical News";
+            this.publisherTextBox.TextChanged += new System.EventHandler(this.paramsChanged);
             // 
             // accordion1
             // 
@@ -554,17 +551,18 @@
             this.accordion1.ShowToolMenuOnHoverWhenClosed = false;
             this.accordion1.ShowToolMenuOnRightClick = true;
             this.accordion1.ShowToolMenuRequiresPositiveFillWeight = false;
-            this.accordion1.Size = new System.Drawing.Size(1376, 429);
+            this.accordion1.Size = new System.Drawing.Size(1376, 477);
             this.accordion1.TabIndex = 0;
             this.accordion1.UpArrow = null;
             // 
             // MainForm
             // 
-            this.ClientSize = new System.Drawing.Size(1389, 542);
+            this.ClientSize = new System.Drawing.Size(1389, 590);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip2);
             this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Enter += new System.EventHandler(this.FocusEnter);
@@ -577,8 +575,6 @@
             this.tabPage2.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.toolStrip3.ResumeLayout(false);
@@ -596,7 +592,6 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabControl tabControl1;
         public Opulos.Core.UI.Accordion accordion1;
-        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.RichTextBox rawXML;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -624,7 +619,6 @@
         private System.Windows.Forms.ToolStripButton openButton;
         private System.Windows.Forms.ToolStripButton saveButton;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
@@ -634,6 +628,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.MaskedTextBox yearTextBox;
         private System.Windows.Forms.MaskedTextBox monthTextBox;
+        private System.Windows.Forms.ToolStripButton stopJobButton;
     }
 }
 

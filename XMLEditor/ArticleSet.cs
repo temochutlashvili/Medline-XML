@@ -51,6 +51,11 @@ namespace XMLEditor
             cb.BackColor = article.getStateColor();
         }
 
+        public void Clear()
+        {
+            _articles.Clear();
+        }
+
         public void setAccordion(Accordion accordion)
         {
             _accordion = accordion;
@@ -64,6 +69,7 @@ namespace XMLEditor
                 CheckBox cb =_accordion.Add(article.getItem().getControl(), article.composeTitle(), article.composeTitle(), 0, false);
                 cb.BackColor = article.getStateColor();
                 article.addTitleEvents();
+                article.reHighlight();
                 article.rebuildAuthors();
             }
         }

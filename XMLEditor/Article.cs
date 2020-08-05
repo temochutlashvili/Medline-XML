@@ -31,14 +31,33 @@ namespace XMLEditor
 
         AccordionItem _accordionItem = new AccordionItem();
 
-        [XmlElement("Journal")]
+        [XmlElement("Journal", Order = 1)]
         public Journal journal;
 
-        [XmlArray("AuthorList")]
+        [XmlArray("AuthorList", Order = 6)]
         public List<Author> _authors;
 
-        [XmlElement]
-        public string ArticleTitle
+        [XmlIgnore]
+        private RawText _titleInstance;
+
+        [XmlElement("ArticleTitle", Order = 2)]
+        public RawText titleInstance
+        {
+            get
+            {
+                _titleInstance.text = ArticleTitleTextBox;
+                return _titleInstance;
+            }
+
+            set
+            {
+                _titleInstance = value;
+                ArticleTitleTextBox = value.text;
+            }
+        }
+
+        [XmlIgnore]
+        public string ArticleTitleTextBox
         {
             get
             {
@@ -51,7 +70,7 @@ namespace XMLEditor
             }
         }
 
-        [XmlElement]
+        [XmlElement(Order = 3)]
         public string FirstPage
         {
             get
@@ -65,7 +84,7 @@ namespace XMLEditor
             }
         }
 
-        [XmlElement]
+        [XmlElement(Order = 4)]
         public string LastPage
         {
             get
@@ -79,7 +98,7 @@ namespace XMLEditor
             }
         }
 
-        [XmlElement]
+        [XmlElement(Order = 5)]
         public string Language
         {
             get
@@ -93,8 +112,27 @@ namespace XMLEditor
             }
         }
 
+        [XmlIgnore]
+        private RawText _abstractInstance;
 
-        public string Abstract
+        [XmlElement("Abstract", Order = 7)]
+        public RawText abstractInstance
+        {
+            get
+            {
+                _abstractInstance.text = AbstractTextBox;
+                return _abstractInstance;
+            }
+
+            set
+            {
+                _abstractInstance = value;
+                AbstractTextBox = value.text;   
+            }
+        }
+
+        [XmlIgnore]
+        public string AbstractTextBox
         {
             get
             {
@@ -132,6 +170,8 @@ namespace XMLEditor
             addAddAuthorEvent();
             journal = Journal.Instance;
             _authors = new List<Author>();
+            _titleInstance = new RawText();
+            _abstractInstance = new RawText();
             //_authors.Add(new Author(_accordionItem.getAuthorsControl()));
         }
 
@@ -164,6 +204,12 @@ namespace XMLEditor
                 _accordionItem.TopLevel = false;
             }
             return _accordionItem;
+        }
+
+        public void reHighlight()
+        {
+            this._accordionItem.getAbstract().textChanged(this, EventArgs.Empty);
+            this._accordionItem.getTitle().textChanged(this, EventArgs.Empty);
         }
 
         public void addTitleEvents()
@@ -224,6 +270,7 @@ namespace XMLEditor
             foreach (Author author in _authors)
             {
                 author.addAuthorControls(this, _accordionItem.getAuthorsControl());
+                author.reHighlight();
             }
         }
 
@@ -238,8 +285,8 @@ namespace XMLEditor
             Button downbut = (Button)this._accordionItem.Controls.Find("downButton", true)[0];
             downbut.Click += new EventHandler(downButtonClick);
 
-            //CheckBox cb = (CheckBox)this._accordionItem.Controls.Find("rawCheckBox", true)[0];
-            //cb.CheckedChanged += new EventHandler(rawCheckChanged);
+            Button cb = (Button)this._accordionItem.Controls.Find("previewButton", true)[0];
+            cb.Click += new EventHandler(previewButtonClick);
         }
 
         public void OnAction(ArticleEventType action)
@@ -268,14 +315,15 @@ namespace XMLEditor
             OnAction(ArticleEventType.down);
         }
 
-        private void rawCheckChanged(object sender, System.EventArgs e)
+        private void previewButtonClick(object sender, System.EventArgs e)
         {
-            this.Abstract = this.Abstract;
+            PreviewForm pf = new PreviewForm(this);
+            pf.ShowDialog();
         }
 
         public String composeTitle()
         {
-            return FirstPage + " - " + LastPage + " - " + Language + " - " + ArticleTitle;
+            return FirstPage + " - " + LastPage + " - " + Language + " - " + ArticleTitleTextBox;
         }
 
         public Color getStateColor()
@@ -310,7 +358,6 @@ namespace XMLEditor
 
         public void WriteXml(XmlWriter writer)
         {
-            
         }
     }
 

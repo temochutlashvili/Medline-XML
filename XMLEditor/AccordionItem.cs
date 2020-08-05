@@ -43,14 +43,19 @@ namespace XMLEditor
             return languageComboBox;
         }
 
-        public RichTextBox getAbstract()
+        public HighlightedTextBox getAbstract()
         {
             return abstractTextBox;
         }
 
-        public RichTextBox getTitle()
+        public HighlightedTextBox getTitle()
         {
             return titleTextBox;
+        }
+
+        public Button getPreviewButton()
+        {
+            return previewButton;
         }
 
         private void rtf_VisibilityChange(object sender, EventArgs e)

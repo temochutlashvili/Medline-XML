@@ -31,7 +31,7 @@ namespace XMLEditor
             findAndHighlight();
         }
 
-        private void findAndHighlight()
+        public void findAndHighlight()
         {
             // Backup the users current selection point.  
             int selectionStart = SelectionStart;

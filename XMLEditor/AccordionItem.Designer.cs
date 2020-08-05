@@ -32,18 +32,18 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pageEndTextBox = new System.Windows.Forms.TextBox();
             this.headerPanel = new System.Windows.Forms.Panel();
+            this.titleTextBox = new XMLEditor.HighlightedTextBox();
             this.addAuthorButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.languageComboBox = new System.Windows.Forms.ComboBox();
             this.authorsPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.abstractTextBox = new HighlightedTextBox();
+            this.abstractTextBox = new XMLEditor.HighlightedTextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.previewButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.upButton = new System.Windows.Forms.Button();
             this.downButton = new System.Windows.Forms.Button();
-            this.titleTextBox = new HighlightedTextBox();
-            this.previewButton = new System.Windows.Forms.Button();
             this.headerPanel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -88,6 +88,18 @@
             this.headerPanel.Name = "headerPanel";
             this.headerPanel.Size = new System.Drawing.Size(530, 59);
             this.headerPanel.TabIndex = 6;
+            // 
+            // titleTextBox
+            // 
+            this.titleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.titleTextBox.Location = new System.Drawing.Point(4, 4);
+            this.titleTextBox.Multiline = false;
+            this.titleTextBox.Name = "titleTextBox";
+            this.titleTextBox.Size = new System.Drawing.Size(523, 20);
+            this.titleTextBox.TabIndex = 10;
+            this.titleTextBox.Text = "";
+            this.titleTextBox.VisibleChanged += new System.EventHandler(this.rtf_VisibilityChange);
             // 
             // addAuthorButton
             // 
@@ -178,6 +190,15 @@
             this.panel2.Size = new System.Drawing.Size(530, 24);
             this.panel2.TabIndex = 9;
             // 
+            // previewButton
+            // 
+            this.previewButton.Image = global::XMLEditor.Properties.Resources.eye_16xLG;
+            this.previewButton.Location = new System.Drawing.Point(0, -2);
+            this.previewButton.Name = "previewButton";
+            this.previewButton.Size = new System.Drawing.Size(23, 23);
+            this.previewButton.TabIndex = 3;
+            this.previewButton.UseVisualStyleBackColor = true;
+            // 
             // deleteButton
             // 
             this.deleteButton.Dock = System.Windows.Forms.DockStyle.Right;
@@ -207,27 +228,6 @@
             this.downButton.Size = new System.Drawing.Size(24, 24);
             this.downButton.TabIndex = 0;
             this.downButton.UseVisualStyleBackColor = true;
-            // 
-            // titleTextBox
-            // 
-            this.titleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.titleTextBox.Location = new System.Drawing.Point(4, 4);
-            this.titleTextBox.Multiline = false;
-            this.titleTextBox.Name = "titleTextBox";
-            this.titleTextBox.Size = new System.Drawing.Size(523, 20);
-            this.titleTextBox.TabIndex = 10;
-            this.titleTextBox.Text = "";
-            this.titleTextBox.VisibleChanged += new System.EventHandler(this.rtf_VisibilityChange);
-            // 
-            // previewButton
-            // 
-            this.previewButton.Location = new System.Drawing.Point(0, -2);
-            this.previewButton.Name = "previewButton";
-            this.previewButton.Size = new System.Drawing.Size(75, 23);
-            this.previewButton.TabIndex = 3;
-            this.previewButton.Text = "Просм.";
-            this.previewButton.UseVisualStyleBackColor = true;
             // 
             // AccordionItem
             // 
@@ -259,13 +259,13 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.FlowLayoutPanel authorsPanel;
         private System.Windows.Forms.TableLayoutPanel panel1;
-        private System.Windows.Forms.RichTextBox abstractTextBox;
+        private HighlightedTextBox abstractTextBox;
         private System.Windows.Forms.Button addAuthorButton;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button upButton;
         private System.Windows.Forms.Button downButton;
         private System.Windows.Forms.Button deleteButton;
-        private System.Windows.Forms.RichTextBox titleTextBox;
+        private HighlightedTextBox titleTextBox;
         private System.Windows.Forms.Button previewButton;
     }
 }
