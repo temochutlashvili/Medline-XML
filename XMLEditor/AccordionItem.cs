@@ -58,6 +58,21 @@ namespace XMLEditor
             return previewButton;
         }
 
+        public Button getDeleteButton()
+        {
+            return deleteButton;
+        }
+
+        public Button getUpButton()
+        {
+            return upButton;
+        }
+
+        public Button getDownButton()
+        {
+            return downButton;
+        }
+
         private void rtf_VisibilityChange(object sender, EventArgs e)
         {
             ((RichTextBox)sender).Invalidate();

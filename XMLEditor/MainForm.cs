@@ -34,6 +34,8 @@ namespace XMLEditor
 
         private void Init()
         {
+            LoadParams();
+
             Journal.Instance.PublisherName = publisherTextBox.Text;
             Journal.Instance.JournalTitle = nameTextBox.Text;
             Journal.Instance.ISSN = issnTextBox.Text;
@@ -44,6 +46,17 @@ namespace XMLEditor
             PubDate.Instance.Year = yearTextBox.Text = DateTime.Now.ToString("yyyy");
 
             charMap.charMapPressedEvent += charMapPressed;
+        }
+
+        private void LoadParams()
+        {
+            monthTextBox.Text = Properties.Settings.Default.Month;
+            yearTextBox.Text = Properties.Settings.Default.Year;
+            publisherTextBox.Text = Properties.Settings.Default.PublisherName;
+            nameTextBox.Text = Properties.Settings.Default.JournalTitle;
+            issnTextBox.Text = Properties.Settings.Default.ISSN;
+            issueTextBox.Text = Properties.Settings.Default.Issue;
+            volumeTextBox.Text = Properties.Settings.Default.Volume;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -209,7 +222,7 @@ namespace XMLEditor
         {
             if (!askForSave()) return;
             articleSet.Clear();
-            rawText = "";
+            generateRaw();
             accordion1.Clear();
         }
 
@@ -230,6 +243,7 @@ namespace XMLEditor
                 {
                     try {
                         articleSet = (ArticleSet)serializer.Deserialize(reader);
+                        generateRaw();
                         articleSet.setAccordion(accordion1);
                         articleSet.rebuildAccordion();
                     } catch(Exception ex) {
@@ -264,7 +278,6 @@ namespace XMLEditor
                     break;
                 case RawTabPage:
                     generateRaw();
-                    rawText = rawXML.Text;
                     break;
             }
         }
@@ -272,6 +285,7 @@ namespace XMLEditor
         private void generateRaw()
         {
             rawXML.Lines = articleSet.toString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            rawText = rawXML.Text;
         }
 
         private Boolean generateArticleSet()
@@ -360,13 +374,32 @@ namespace XMLEditor
         private void paramsChanged(object sender, EventArgs e)
         {
             Journal journal = Journal.Instance;
-            journal.pubDate.Month = monthTextBox.Text;
-            journal.pubDate.Year = yearTextBox.Text;
-            journal.PublisherName = publisherTextBox.Text;
-            journal.JournalTitle = nameTextBox.Text;
-            journal.ISSN = issnTextBox.Text;
-            journal.Issue = issueTextBox.Text;
-            journal.Volume = volumeTextBox.Text;
+            switch((sender as Control).Name)
+            {
+                case "monthTextBox":
+                    Properties.Settings.Default.Month = journal.pubDate.Month = monthTextBox.Text;
+                    break;
+                case "yearTextBox":
+                    Properties.Settings.Default.Year = journal.pubDate.Year = yearTextBox.Text;
+                    break;
+                case "publisherTextBox":
+                    Properties.Settings.Default.PublisherName = journal.PublisherName = publisherTextBox.Text;
+                    break;
+                case "nameTextBox":
+                    Properties.Settings.Default.JournalTitle = journal.JournalTitle = nameTextBox.Text;
+                    break;
+                case "issnTextBox":
+                    Properties.Settings.Default.ISSN = journal.ISSN = issnTextBox.Text;
+                    break;
+                case "issueTextBox":
+                    Properties.Settings.Default.Issue = journal.Issue = issueTextBox.Text;
+                    break;
+                case "volumeTextBox":
+                    Properties.Settings.Default.Volume = journal.Volume = volumeTextBox.Text;
+                    break;
+            }
+            
+            Properties.Settings.Default.Save();
         }
 
         private Boolean askForSave()

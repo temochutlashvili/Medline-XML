@@ -69,6 +69,8 @@ namespace XMLEditor
                 CheckBox cb =_accordion.Add(article.getItem().getControl(), article.composeTitle(), article.composeTitle(), 0, false);
                 cb.BackColor = article.getStateColor();
                 article.addTitleEvents();
+                article.articeEvent += article_Action;
+                article.setHandlers();
                 article.reHighlight();
                 article.rebuildAuthors();
             }

@@ -274,19 +274,12 @@ namespace XMLEditor
             }
         }
 
-        private void setHandlers()
+        public void setHandlers()
         {
-            Button delbut = (Button)this._accordionItem.Controls.Find("deleteButton", true)[0];
-            delbut.Click += new EventHandler(deleteButtonClick);
-
-            Button upbut = (Button)this._accordionItem.Controls.Find("upButton", true)[0];
-            upbut.Click += new EventHandler(upButtonClick);
-
-            Button downbut = (Button)this._accordionItem.Controls.Find("downButton", true)[0];
-            downbut.Click += new EventHandler(downButtonClick);
-
-            Button cb = (Button)this._accordionItem.Controls.Find("previewButton", true)[0];
-            cb.Click += new EventHandler(previewButtonClick);
+            this._accordionItem.getDeleteButton().Click += new EventHandler(deleteButtonClick);
+            this._accordionItem.getUpButton().Click += new EventHandler(upButtonClick);
+            this._accordionItem.getDownButton().Click += new EventHandler(downButtonClick);
+            this._accordionItem.getPreviewButton().Click += new EventHandler(previewButtonClick);
         }
 
         public void OnAction(ArticleEventType action)

@@ -46,6 +46,7 @@
             this.issnTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.monthTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.publisherTextBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripSplitButton_AddClipboard = new System.Windows.Forms.ToolStripSplitButton();
@@ -58,7 +59,7 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.undoButton = new System.Windows.Forms.ToolStripButton();
-            this.rawXML = new System.Windows.Forms.RichTextBox();
+            this.rawXML = new HighlightedTextBox();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.newButton = new System.Windows.Forms.ToolStripButton();
@@ -68,7 +69,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.publisherTextBox = new XMLEditor.HighlightedTextBox();
             this.accordion1 = new Opulos.Core.UI.Accordion();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -131,7 +131,6 @@
             this.tableLayoutPanel1.Controls.Add(this.volumeTextBox, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.publisherTextBox, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.nameTextBox, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 3);
@@ -139,6 +138,7 @@
             this.tableLayoutPanel1.Controls.Add(this.issnTextBox, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.monthTextBox, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.publisherTextBox, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(38, 37);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 7;
@@ -267,6 +267,15 @@
             this.monthTextBox.Size = new System.Drawing.Size(34, 20);
             this.monthTextBox.TabIndex = 11;
             this.monthTextBox.TextChanged += new System.EventHandler(this.paramsChanged);
+            // 
+            // publisherTextBox
+            // 
+            this.publisherTextBox.Location = new System.Drawing.Point(92, 3);
+            this.publisherTextBox.Name = "publisherTextBox";
+            this.publisherTextBox.Size = new System.Drawing.Size(291, 20);
+            this.publisherTextBox.TabIndex = 13;
+            this.publisherTextBox.Text = "Geogian Medical News";
+            this.publisherTextBox.TextChanged += new System.EventHandler(this.paramsChanged);
             // 
             // tabPage2
             // 
@@ -482,15 +491,6 @@
             // 
             this.openFileDialog.FileName = "openFileDialog1";
             // 
-            // publisherTextBox
-            // 
-            this.publisherTextBox.Location = new System.Drawing.Point(92, 3);
-            this.publisherTextBox.Name = "publisherTextBox";
-            this.publisherTextBox.Size = new System.Drawing.Size(291, 20);
-            this.publisherTextBox.TabIndex = 1;
-            this.publisherTextBox.Text = "Georgian Medical News";
-            this.publisherTextBox.TextChanged += new System.EventHandler(this.paramsChanged);
-            // 
             // accordion1
             // 
             this.accordion1.AddResizeBars = true;
@@ -593,12 +593,11 @@
         private System.Windows.Forms.TabControl tabControl1;
         public Opulos.Core.UI.Accordion accordion1;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.RichTextBox rawXML;
+        private HighlightedTextBox rawXML;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private HighlightedTextBox publisherTextBox;
         private System.Windows.Forms.TextBox nameTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox issnTextBox;
@@ -629,6 +628,7 @@
         private System.Windows.Forms.MaskedTextBox yearTextBox;
         private System.Windows.Forms.MaskedTextBox monthTextBox;
         private System.Windows.Forms.ToolStripButton stopJobButton;
+        private System.Windows.Forms.TextBox publisherTextBox;
     }
 }
 

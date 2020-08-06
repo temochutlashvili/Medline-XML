@@ -42,8 +42,14 @@
             this.basicLatinPage = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.addToFavouritesMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.добавитьВИзбранноеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeFromFavouritesMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.addToFavouritesMenuStrip.SuspendLayout();
+            this.removeFromFavouritesMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -178,6 +184,34 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // addToFavouritesMenuStrip
+            // 
+            this.addToFavouritesMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.добавитьВИзбранноеToolStripMenuItem});
+            this.addToFavouritesMenuStrip.Name = "addToFavouritesMenuStrip";
+            this.addToFavouritesMenuStrip.Size = new System.Drawing.Size(198, 26);
+            // 
+            // добавитьВИзбранноеToolStripMenuItem
+            // 
+            this.добавитьВИзбранноеToolStripMenuItem.Name = "добавитьВИзбранноеToolStripMenuItem";
+            this.добавитьВИзбранноеToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.добавитьВИзбранноеToolStripMenuItem.Text = "Добавить в избранное";
+            this.добавитьВИзбранноеToolStripMenuItem.Click += new System.EventHandler(this.addToFavourites);
+            // 
+            // removeFromFavouritesMenuStrip
+            // 
+            this.removeFromFavouritesMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.удалитьToolStripMenuItem});
+            this.removeFromFavouritesMenuStrip.Name = "removeFromFavouritesMenuStrip";
+            this.removeFromFavouritesMenuStrip.Size = new System.Drawing.Size(153, 48);
+            // 
+            // удалитьToolStripMenuItem
+            // 
+            this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.удалитьToolStripMenuItem.Text = "Удалить";
+            this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.deleteFavouritesClick);
+            // 
             // CharacterMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -197,6 +231,8 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.addToFavouritesMenuStrip.ResumeLayout(false);
+            this.removeFromFavouritesMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -216,5 +252,9 @@
         private System.Windows.Forms.TabPage basicLatinPage;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ContextMenuStrip addToFavouritesMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem добавитьВИзбранноеToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip removeFromFavouritesMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
     }
 }
